@@ -69,7 +69,7 @@ andExpr : relExpr (AND relExpr)* ;
 
 relExpr : addExpr (relOp addExpr)* ;
 
-// معاملات المقارنة (أضف إليها باقي المعاملات في الـ Lexer مثل >= و <= و == و !=)
+// معاملات المقارنة 
 relOp :  GT | LT | LTE | GTE | EQ | NEQ ; 
 
 addExpr : mulExpr ((PLUS | MINUS) mulExpr)* ;
