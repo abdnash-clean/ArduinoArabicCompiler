@@ -4,90 +4,96 @@ options {
     tokenVocab = ArArduinoLexer;
 }
 
-// نقطة البداية للبرنامج (يتكون من مجموعة من التعريفات)
+// نقطة البداية
 program : declaration* EOF ;
 
-// التعريف إما أن يكون لمتغير أو لدالة
-// التعريف إما متغير، أو دالة عادية، أو إعداد، أو تكرار
+// التعريف إما لمتغير (يبدأ بـ VAR) أو دالة (تبدأ بـ FUNCTION)
 declaration 
-    : varDecl  
-    | setupDec 
-    | loopDec 
-    | funDecl
+    : varDecl 
+    | funDecl 
     ;
 
-// قاعدة دالة الإعداد (تُجبر المستخدم على أن يكون اسمها إعداد، وبدون معاملات، وترجع فارغ)
-setupDec : FUNCTION SETUP LPAREN RPAREN COLON VOID block ;
-
-// قاعدة دالة التكرار (نفس الشيء، اسمها تكرار، وترجع فارغ)
-loopDec : FUNCTION LOOP LPAREN RPAREN COLON VOID block ;
-
-// قاعدة الدوال العادية (أي اسم آخر غير إعداد وتكرار)
-funDecl : FUNCTION ID LPAREN params? RPAREN COLON type block ;
-
-// قاعدة تعريف المتغيرات (على طريقة Kotlin)
-// مثال: متغير ليد : صحيح = 9؛
+// تعريف المتغير
 varDecl : VAR ID COLON type ASSIGN expression SEMI ;
 
+// --- Left Factoring for Functions ---
+// أخذنا كلمة "دالة" كعامل مشترك أيسر لمنع التداخل
+funDecl : FUNCTION funcBody ;
 
+// ما بعد كلمة "دالة" يحدد نوعها (إعداد، تكرار، أو دالة عادية)
+funcBody
+    : SETUP LPAREN RPAREN COLON VOID block
+    | LOOP LPAREN RPAREN COLON VOID block
+    | ID LPAREN params? RPAREN COLON type block
+    ;
 
-// معاملات الدالة (مفصولة بفاصلة)
 params : param (COMA param)* ;
-
-// معامل الدالة الواحد (الاسم : النوع)
 param : ID COLON type ;
-
-// كتلة الأكواد
 block : LBRACE statement* RBRACE ;
 
-// الجمل البرمجية المتاحة داخل الدوال
+// --- Left Factoring for Statements ---
 statement
-    : varDecl                        // تعريف متغير محلي
-    | assignment SEMI                // عملية إسناد
-    | funcCall SEMI                  // استدعاء دالة
-    | ifStat                         // جملة شرطية
-    | whileStat                      // حلقة طالما
-    | returnStat SEMI                // جملة إرجاع
+    : varDecl
+    | idStatement SEMI    // الإسناد أو الاستدعاء يبدأ بمعرف
+    | ifStat
+    | whileStat
+    | returnStat SEMI
     ;
 
-// الإسناد: إعطاء قيمة جديدة لمتغير موجود
-assignment : ID ASSIGN expression ;
+// الجمل التي تبدأ بـ ID (إما إسناد أو استدعاء دالة)
+idStatement : ID idSuffix ;
 
-// الجملة الشرطية
+idSuffix
+    : ASSIGN expression     // إذا وجدنا (=) فهي عملية إسناد
+    | LPAREN args? RPAREN   // إذا وجدنا أقواس فهي استدعاء دالة
+    ;
+
 ifStat : IF LPAREN expression RPAREN block (ELSE block)? ;
-
-// حلقة التكرار (طالما)
 whileStat : WHILE LPAREN expression RPAREN block ;
-
-// جملة الإرجاع
 returnStat : RETURN expression? ;
 
-// استدعاء الدوال
-funcCall : ID LPAREN args? RPAREN ;
-
-// المعاملات الممررة عند استدعاء دالة
 args : expression (COMA expression)* ;
 
-// قاعدة التعابير (Expressions) مع مراعاة أولويات العمليات الحسابية والمنطقية
-expression
-    : primary                                # primaryExpr
-    | ID LPAREN args? RPAREN                 # funcCallExpr
-    | LPAREN expression RPAREN               # parensExpr
-    | MINUS expression                       # unaryMinusExpr
-    | expression (MUL | DIV) expression      # mulDivExpr
-    | expression (PLUS | MINUS) expression   # plusMinusExpr
-    | expression (GT | LT) expression        # relOpExpr
-    | expression AND expression              # andExpr
-    | expression OR expression               # orExpr
+// ==========================================
+// --- Eliminating Left Recursion (LL1) ---
+// ==========================================
+// بنينا التعابير على شكل هرمي يمثل أولويات العمليات 
+// من الأضعف (OR) إلى الأقوى (Primary)
+// استخدمنا ()* بدلاً من الاستدعاء الذاتي الأيسر
+
+expression : orExpr ;
+
+orExpr : andExpr (OR andExpr)* ;
+
+andExpr : relExpr (AND relExpr)* ;
+
+relExpr : addExpr (relOp addExpr)* ;
+
+// معاملات المقارنة (أضف إليها باقي المعاملات في الـ Lexer مثل >= و <= و == و !=)
+relOp :  GT | LT | LTE | GTE | EQ | NEQ ; 
+
+addExpr : mulExpr ((PLUS | MINUS) mulExpr)* ;
+
+mulExpr : unaryExpr ((MUL | DIV) unaryExpr)* ;
+
+unaryExpr 
+    : MINUS unaryExpr 
+    | primary 
     ;
 
-// القيم الأساسية
+// --- Left Factoring for Primary ---
 primary
     : NUMBER
-    | ID
     | TRUE
     | FALSE
+    | LPAREN expression RPAREN
+    | ID primaryIdSuffix  // المعرف قد يكون متغيراً أو استدعاء دالة داخل التعبير
     ;
 
-// الأنواع المدعومة
+primaryIdSuffix
+    : LPAREN args? RPAREN  // استدعاء دالة
+    | /* Epsilon (فارغ) */ // مجرد متغير عادي
+    ;
+
+// الأنواع
 type : INT_T | FLOAT_T | VOID | BOOL ;
