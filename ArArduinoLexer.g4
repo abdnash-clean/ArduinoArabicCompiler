@@ -34,7 +34,7 @@ LBRACE  : '{' ;
 RBRACE  : '}' ;
 COLON   : ':' ;
 SEMI    : '؛' ;
-COMA    : ',' ;
+COMA    : '،' ;
 
 
 
