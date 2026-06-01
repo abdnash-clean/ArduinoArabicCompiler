@@ -38,14 +38,18 @@ statement
     | ifStat
     | whileStat
     | returnStat SEMI
+    | block
+    | SEMI // العبارة فارغة
     ;
 
 // الجمل التي تبدأ بـ ID (إما إسناد أو استدعاء دالة)
 idStatement : ID idSuffix ;
 
 idSuffix
-    : ASSIGN expression     // إذا وجدنا (=) فهي عملية إسناد
-    | LPAREN args? RPAREN   // إذا وجدنا أقواس فهي استدعاء دالة
+    : ASSIGN expression                     // س = 5؛
+    | (ADD_ASSIGN | SUB_ASSIGN) expression   // س += 5؛
+    | (INC | DEC)                           // س++؛
+    | LPAREN args? RPAREN                   // دالة()؛
     ;
 
 ifStat : IF LPAREN expression RPAREN block (ELSE block)? ;
@@ -63,21 +67,34 @@ args : expression (COMA expression)* ;
 
 expression : orExpr ;
 
+// 1. "أو" المنطقية (Logical OR) تليها "و" المنطقية
 orExpr : andExpr (OR andExpr)* ;
 
-andExpr : relExpr (AND relExpr)* ;
+// 2. "و" المنطقية (Logical AND) تليها "أو" الثنائية للبت
+andExpr : bwOrExpr (AND bwOrExpr)* ;
 
+// 3. إضافة قاعدة الـ Bitwise OR
+bwOrExpr : bwXorExpr (BW_OR bwXorExpr)* ;
+
+// 4. إضافة قاعدة الـ Bitwise XOR
+bwXorExpr : bwAndExpr (BW_XOR bwAndExpr)* ;
+
+// 5. إضافة قاعدة الـ Bitwise AND تليها المقارنات
+bwAndExpr : relExpr (BW_AND relExpr)* ;
+
+// 6. المقارنات النسبية والمتساوية تليها الجمع والطرح
 relExpr : addExpr (relOp addExpr)* ;
 
-// معاملات المقارنة 
+// معاملات المقارنة كما هي
 relOp :  GT | LT | LTE | GTE | EQ | NEQ ; 
 
 addExpr : mulExpr ((PLUS | MINUS) mulExpr)* ;
 
 mulExpr : unaryExpr ((MUL | DIV) unaryExpr)* ;
 
+// 7. تحديث قاعدة المعاملات الأحادية لتشمل النفي الثنائي (BW_NOT) والنفي المنطقي (NOT)
 unaryExpr 
-    : MINUS unaryExpr 
+    : (MINUS | NOT | BW_NOT) unaryExpr 
     | primary 
     ;
 
@@ -85,6 +102,8 @@ unaryExpr
 primary
     : NUMBER
     | TRUE
+    | CHAR
+    | STRING
     | FALSE
     | LPAREN expression RPAREN
     | ID primaryIdSuffix  // المعرف قد يكون متغيراً أو استدعاء دالة داخل التعبير
@@ -96,4 +115,4 @@ primaryIdSuffix
     ;
 
 // الأنواع
-type : INT_T | FLOAT_T | VOID | BOOL ;
+type : INT_T | FLOAT_T | VOID | BOOL | STRING_T | CHAR_T;
