@@ -1,8 +1,21 @@
+# البيئة الافتراضية لبايثون
+venv/
+.venv/
+env/
+
+# ملفات الكاش الخاصة ببايثون
+__pycache__/
+*.pyc
+
+# ملفات جافا المؤقتة التي نتجت عن تشغيل grun يدوياً
 *.class
 *.java
-*.pyc
-*.py
-*.tokens
 *.interp
-/.antlr
-/tools
+.antlr/
+frontend/.antlr/
+
+# الصور والملفات الرسومية والمؤقتة المخرجة من المترجم
+*.png
+*.pdf
+test_ai_nodes.py
+test.txt
