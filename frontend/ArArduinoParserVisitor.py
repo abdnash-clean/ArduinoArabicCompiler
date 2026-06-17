@@ -14,6 +14,11 @@ class ArArduinoParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by ArArduinoParser#importStmt.
+    def visitImportStmt(self, ctx:ArArduinoParser.ImportStmtContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by ArArduinoParser#declaration.
     def visitDeclaration(self, ctx:ArArduinoParser.DeclarationContext):
         return self.visitChildren(ctx)
@@ -71,6 +76,16 @@ class ArArduinoParserVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by ArArduinoParser#whileStat.
     def visitWhileStat(self, ctx:ArArduinoParser.WhileStatContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by ArArduinoParser#breakStat.
+    def visitBreakStat(self, ctx:ArArduinoParser.BreakStatContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by ArArduinoParser#continueStat.
+    def visitContinueStat(self, ctx:ArArduinoParser.ContinueStatContext):
         return self.visitChildren(ctx)
 
 

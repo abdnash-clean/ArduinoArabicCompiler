@@ -15,6 +15,7 @@ class ASTNode(ABC):
 
 @dataclass
 class ProgramNode(ASTNode):
+    imports: List[ASTNode] = field(default_factory=list)
     declarations: List[ASTNode] = field(default_factory=list)
     def accept(self, visitor: 'ASTVisitor'):
         return visitor.visit_ProgramNode(self)
@@ -122,3 +123,20 @@ class IdNode(ASTNode):
     name: str = ""
     def accept(self, visitor: 'ASTVisitor'):
         return visitor.visit_IdNode(self)
+    
+
+@dataclass
+class ImportNode(ASTNode):
+    library_name: str = ""
+    def accept(self, visitor: 'ASTVisitor'):
+        return visitor.visit_ImportNode(self)
+
+@dataclass
+class BreakNode(ASTNode):
+    def accept(self, visitor: 'ASTVisitor'):
+        return visitor.visit_BreakNode(self)
+
+@dataclass
+class ContinueNode(ASTNode):
+    def accept(self, visitor: 'ASTVisitor'):
+        return visitor.visit_ContinueNode(self)

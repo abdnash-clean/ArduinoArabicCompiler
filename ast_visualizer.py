@@ -22,6 +22,8 @@ class ASTVisualizerVisitor(ASTVisitor):
     def visit_ProgramNode(self, node):
         label = f"Program\n(البرنامج)"
         self.dot.node(str(id(node)), label, fillcolor='lightgray')
+        for imp in node.imports:
+            self.add_node_and_edge(node, imp)
         for decl in node.declarations:
             self.add_node_and_edge(node, decl)
 
@@ -102,3 +104,16 @@ class ASTVisualizerVisitor(ASTVisitor):
     def visit_IdNode(self, node):
         label = f"Id: {node.name}"
         self.dot.node(str(id(node)), label, fillcolor='white')
+
+
+    def visit_ImportNode(self, node):
+        label = f"Import\n\"{node.library_name}\"\n[سطر: {node.line+1}]"
+        self.dot.node(str(id(node)), label, fillcolor='lightblue')
+
+    def visit_BreakNode(self, node):
+        label = f"Break\n(اقطع)\n[سطر: {node.line+1}]"
+        self.dot.node(str(id(node)), label, fillcolor='tomato')
+
+    def visit_ContinueNode(self, node):
+        label = f"Continue\n(استمر)\n[سطر: {node.line+1}]"
+        self.dot.node(str(id(node)), label, fillcolor='lightsalmon')

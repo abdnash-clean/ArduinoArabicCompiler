@@ -11,7 +11,9 @@ class SemanticAnalyzerVisitor(ASTVisitor):
         self.current_env = Environment()
         # قائمة لتجميع أخطاء الأنواع والنطاقات
         self.errors = []
+        self.loop_depth = 0
 
+        
     def log_error(self, line: int, column: int, message: str):
         self.errors.append(f"خطأ دلالي (سطر {line}): {message}")
 
@@ -167,8 +169,11 @@ class SemanticAnalyzerVisitor(ASTVisitor):
             cond_type = node.condition.accept(self)
             if cond_type != ERROR_TYPE and cond_type != BOOL_TYPE:
                 self.log_error(node.line, node.column, f"شرط 'طالما' يجب أن يكون من نوع 'منطقي' وليس '{cond_type}'.")
+        
+        self.loop_depth += 1  # الدخول في حلقة تكرار
         if node.body:
             node.body.accept(self)
+        self.loop_depth -= 1  # الخروج من حلقة التكرار
 
     def visit_ReturnNode(self, node: ReturnNode):
         if node.value:
@@ -188,3 +193,16 @@ class SemanticAnalyzerVisitor(ASTVisitor):
 
     def visit_BoolNode(self, node: BoolNode):
         return BOOL_TYPE
+    
+    def visit_ImportNode(self, node: ImportNode):
+        pass # الاستيراد لا يحتاج لتحليل أنواع حالياً
+
+    def visit_BreakNode(self, node: BreakNode):
+        if self.loop_depth == 0:
+            self.log_error(node.line, node.column, "لا يمكن استخدام أمر 'اقطع' خارج حلقات التكرار (طالما).")
+        return ERROR_TYPE
+
+    def visit_ContinueNode(self, node: ContinueNode):
+        if self.loop_depth == 0:
+            self.log_error(node.line, node.column, "لا يمكن استخدام أمر 'استمر' خارج حلقات التكرار (طالما).")
+        return ERROR_TYPE

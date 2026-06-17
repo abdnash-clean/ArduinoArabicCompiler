@@ -5,8 +5,11 @@ options {
 }
 
 // نقطة البداية
-program : declaration* EOF ;
+// 1. تحديث نقطة البداية لتسمح بجمل الاستيراد في الأعلى
+program : importStmt* declaration* EOF ;
 
+// 2. إضافة قاعدة الاستيراد (استيراد "اسم_المكتبة" ؛)
+importStmt : IMPORT STRING SEMI ;
 // التعريف إما لمتغير (يبدأ بـ VAR) أو دالة (تبدأ بـ FUNCTION)
 declaration 
     : varDecl 
@@ -34,12 +37,14 @@ block : LBRACE statement* RBRACE ;
 // --- Left Factoring for Statements ---
 statement
     : varDecl
-    | idStatement SEMI    // الإسناد أو الاستدعاء يبدأ بمعرف
+    | idStatement SEMI
     | ifStat
     | whileStat
     | returnStat SEMI
+    | breakStat       
+    | continueStat  
     | block
-    | SEMI // العبارة فارغة
+    | SEMI
     ;
 
 // الجمل التي تبدأ بـ ID (إما إسناد أو استدعاء دالة)
@@ -54,6 +59,8 @@ idSuffix
 
 ifStat : IF LPAREN expression RPAREN block (ELSE block)? ;
 whileStat : WHILE LPAREN expression RPAREN block ;
+breakStat : BREAK SEMI ;
+continueStat : CONTINUE SEMI ;
 returnStat : RETURN expression? ;
 
 args : expression (COMA expression)* ;

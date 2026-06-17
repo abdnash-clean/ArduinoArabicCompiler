@@ -12,11 +12,11 @@ class ASTBuilderVisitor(ArArduinoParserVisitor):
         return node
 
     def visitProgram(self, ctx: ArArduinoParser.ProgramContext):
+        imports = [self.visit(imp) for imp in ctx.importStmt()] if ctx.importStmt() else []
         declarations = [self.visit(decl) for decl in ctx.declaration()]
-        # استخدام الاسم المفتاحية declarations= لمنع بايثون من الخلط
-        node = ProgramNode(declarations=declarations)
+        node = ProgramNode(imports=imports, declarations=declarations)
         return self.set_metadata(node, ctx)
-
+    
     def visitDeclaration(self, ctx: ArArduinoParser.DeclarationContext):
         if ctx.varDecl():
             return self.visit(ctx.varDecl())
@@ -71,18 +71,14 @@ class ASTBuilderVisitor(ArArduinoParserVisitor):
         return self.set_metadata(node, ctx)
 
     def visitStatement(self, ctx: ArArduinoParser.StatementContext):
-        if ctx.varDecl():
-            return self.visit(ctx.varDecl())
-        elif ctx.idStatement():
-            return self.visit(ctx.idStatement())
-        elif ctx.ifStat():
-            return self.visit(ctx.ifStat())
-        elif ctx.whileStat():
-            return self.visit(ctx.whileStat())
-        elif ctx.returnStat():
-            return self.visit(ctx.returnStat())
-        elif ctx.block():
-            return self.visit(ctx.block())
+        if ctx.varDecl(): return self.visit(ctx.varDecl())
+        elif ctx.idStatement(): return self.visit(ctx.idStatement())
+        elif ctx.ifStat(): return self.visit(ctx.ifStat())
+        elif ctx.whileStat(): return self.visit(ctx.whileStat())
+        elif ctx.returnStat(): return self.visit(ctx.returnStat())
+        elif ctx.breakStat(): return self.visit(ctx.breakStat())     
+        elif ctx.continueStat(): return self.visit(ctx.continueStat())    
+        elif ctx.block(): return self.visit(ctx.block())
         return None
 
     def visitIdStatement(self, ctx: ArArduinoParser.IdStatementContext):
@@ -231,4 +227,17 @@ class ASTBuilderVisitor(ArArduinoParserVisitor):
                 node = FuncCallNode(name=name, args=args)
             else:
                 node = IdNode(name=name)
+        return self.set_metadata(node, ctx)
+    
+    def visitImportStmt(self, ctx: ArArduinoParser.ImportStmtContext):
+        lib_name = ctx.STRING().getText()[1:-1]
+        node = ImportNode(library_name=lib_name)
+        return self.set_metadata(node, ctx)
+
+    def visitBreakStat(self, ctx: ArArduinoParser.BreakStatContext):
+        node = BreakNode()
+        return self.set_metadata(node, ctx)
+
+    def visitContinueStat(self, ctx: ArArduinoParser.ContinueStatContext):
+        node = ContinueNode()
         return self.set_metadata(node, ctx)

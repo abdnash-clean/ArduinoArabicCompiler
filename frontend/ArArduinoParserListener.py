@@ -17,6 +17,15 @@ class ArArduinoParserListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by ArArduinoParser#importStmt.
+    def enterImportStmt(self, ctx:ArArduinoParser.ImportStmtContext):
+        pass
+
+    # Exit a parse tree produced by ArArduinoParser#importStmt.
+    def exitImportStmt(self, ctx:ArArduinoParser.ImportStmtContext):
+        pass
+
+
     # Enter a parse tree produced by ArArduinoParser#declaration.
     def enterDeclaration(self, ctx:ArArduinoParser.DeclarationContext):
         pass
@@ -122,6 +131,24 @@ class ArArduinoParserListener(ParseTreeListener):
 
     # Exit a parse tree produced by ArArduinoParser#whileStat.
     def exitWhileStat(self, ctx:ArArduinoParser.WhileStatContext):
+        pass
+
+
+    # Enter a parse tree produced by ArArduinoParser#breakStat.
+    def enterBreakStat(self, ctx:ArArduinoParser.BreakStatContext):
+        pass
+
+    # Exit a parse tree produced by ArArduinoParser#breakStat.
+    def exitBreakStat(self, ctx:ArArduinoParser.BreakStatContext):
+        pass
+
+
+    # Enter a parse tree produced by ArArduinoParser#continueStat.
+    def enterContinueStat(self, ctx:ArArduinoParser.ContinueStatContext):
+        pass
+
+    # Exit a parse tree produced by ArArduinoParser#continueStat.
+    def exitContinueStat(self, ctx:ArArduinoParser.ContinueStatContext):
         pass
 
 
