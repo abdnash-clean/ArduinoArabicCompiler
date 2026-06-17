@@ -34,3 +34,9 @@ class ASTVisitor(ABC):
     def visit_BoolNode(self, node): pass
     @abstractmethod
     def visit_IdNode(self, node): pass
+    @abstractmethod
+    def visit_ImportNode(self, node): pass
+    @abstractmethod
+    def visit_BreakNode(self, node): pass
+    @abstractmethod
+    def visit_ContinueNode(self, node): pass
