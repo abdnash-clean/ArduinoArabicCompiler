@@ -18,12 +18,16 @@ class StringType(Type):
 class BoolType(Type):
     def __str__(self): return "منطقي"
 
+class VoidType(Type):
+    def __str__(self): return "فارغ"
+
 class ErrorType(Type):
     """النوع المسموم: يُستخدم عند وجود خطأ لمنع تكرار رسائل الخطأ اللاحقة لنفس السبب"""
     def __str__(self): return "داللي_خطأ"
 
 # ثوابت عامة لتوفير الذاكرة وسهولة المقارنة
 INT_TYPE = IntType()
+VOID_TYPE = VoidType()
 FLOAT_TYPE = FloatType()
 STRING_TYPE = StringType()
 BOOL_TYPE = BoolType()

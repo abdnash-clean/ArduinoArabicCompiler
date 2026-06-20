@@ -1,6 +1,6 @@
 # ast_nodes.py
 from dataclasses import dataclass, field
-from typing import List, Optional, Tuple
+from typing import Any, List, Optional, Tuple
 from abc import ABC, abstractmethod
 from ast_dir.visitor_interface import ASTVisitor
 
@@ -8,7 +8,7 @@ from ast_dir.visitor_interface import ASTVisitor
 class ASTNode(ABC):
     line: int = 0
     column: int = 0
-
+    resolved_type: Any = None  # نوع البيانات بعد التحليل الدلالي
     @abstractmethod
     def accept(self, visitor: 'ASTVisitor'):
         pass

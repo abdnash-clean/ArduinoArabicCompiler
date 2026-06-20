@@ -20,3 +20,7 @@ class FunctionSymbol(Symbol):
     def __init__(self, name: str, return_type: Any = None, arity: int = 0):
         super().__init__(name, return_type)
         self.arity = arity  # عدد المعاملات التي تقبلها الدالة
+
+class ConstantSymbol(Symbol):
+    def __init__(self, name: str, sym_type: Any = None):
+        super().__init__(name, sym_type)

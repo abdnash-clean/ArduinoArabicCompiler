@@ -4,6 +4,7 @@ from ast_dir.nodes import *
 from semantic.environment import Environment, SemanticError
 from semantic.symbols import VariableSymbol, FunctionSymbol
 from semantic.types_system import *
+from semantic.builtins_registry import CORE_CONSTANTS, CORE_FUNCTIONS, LIBRARIES
 
 class SemanticAnalyzerVisitor(ASTVisitor):
     def __init__(self):
@@ -12,7 +13,14 @@ class SemanticAnalyzerVisitor(ASTVisitor):
         # قائمة لتجميع أخطاء الأنواع والنطاقات
         self.errors = []
         self.loop_depth = 0
-
+        self.current_function_return_type = None 
+       # Load Core Constants automatically
+        for name, symbol in CORE_CONSTANTS.items():
+            self.current_env.define(name, symbol)
+            
+        # Load Core Functions automatically
+        for name, symbol in CORE_FUNCTIONS.items():
+            self.current_env.define(name, symbol)
         
     def log_error(self, line: int, column: int, message: str):
         self.errors.append(f"خطأ دلالي (سطر {line}): {message}")
@@ -42,7 +50,8 @@ class SemanticAnalyzerVisitor(ASTVisitor):
             'عشري': FLOAT_TYPE,
             'كسري': FLOAT_TYPE,
             'نص': STRING_TYPE,
-            'منطقي': BOOL_TYPE
+            'منطقي': BOOL_TYPE,
+            'فارغ': VOID_TYPE
         }
         declared_type = type_mapping.get(node.var_type, STRING_TYPE)
 
@@ -59,12 +68,17 @@ class SemanticAnalyzerVisitor(ASTVisitor):
 
     # 4. زيارة الأرقام وإرجاع النوع صحيح
     def visit_NumberNode(self, node: NumberNode):
-        return INT_TYPE
+        if node.value.is_integer():
+            node.resolved_type = INT_TYPE
+            return INT_TYPE
+        node.resolved_type = FLOAT_TYPE
+        return FLOAT_TYPE
 
     # 5. زيارة استخدام المتغير (التحقق من الوجود واسترجاع نوعه الأصلي)
     def visit_IdNode(self, node: IdNode):
         try:
             sym = self.current_env.resolve(node.name)
+            node.resolved_type = sym.type
             return sym.type
         except SemanticError:
             self.log_error(node.line, node.column, f"استخدام لمتغير غير معرّف '{node.name}'.")
@@ -76,9 +90,18 @@ class SemanticAnalyzerVisitor(ASTVisitor):
         value_type = node.value.accept(self) if node.value else ERROR_TYPE
         try:
             sym = self.current_env.resolve(node.name)
+            
+            from semantic.symbols import ConstantSymbol
+            if isinstance(sym, ConstantSymbol):
+                self.log_error(node.line, node.column, f"لا يمكن تغيير قيمة الثابت '{node.name}'.")
+                return ERROR_TYPE
+            
             declared_type = sym.type
             if value_type != ERROR_TYPE and value_type != declared_type:
                 self.log_error(node.line, node.column, f"لا يمكن إسناد قيمة من نوع '{value_type}' إلى متغير من نوع '{declared_type}'.")
+            else:
+                node.resolved_type = declared_type
+                return declared_type
         except SemanticError:
             self.log_error(node.line, node.column, f"استخدام لمتغير غير معرّف '{node.name}'.")
         return ERROR_TYPE
@@ -95,8 +118,13 @@ class SemanticAnalyzerVisitor(ASTVisitor):
         # التحقق من معاملات الرياضيات
         if node.op in ['+', '-', '*', '/']:
             if left_type == INT_TYPE and right_type == INT_TYPE:
+                node.resolved_type = INT_TYPE
                 return INT_TYPE
             elif left_type == FLOAT_TYPE and right_type == FLOAT_TYPE:
+                node.resolved_type = FLOAT_TYPE
+                return FLOAT_TYPE
+            elif left_type == INT_TYPE and right_type == FLOAT_TYPE:
+                node.resolved_type = FLOAT_TYPE
                 return FLOAT_TYPE
             else:
                 self.log_error(node.line, node.column, f"العملية '{node.op}' غير مسموحة بين '{left_type}' و '{right_type}'.")
@@ -104,6 +132,7 @@ class SemanticAnalyzerVisitor(ASTVisitor):
         # التحقق من معاملات المقارنة
         elif node.op in ['<', '>', '<=', '>=', '==', '!=']:
             if left_type == right_type:
+                node.resolved_type = BOOL_TYPE
                 return BOOL_TYPE
             else:
                 self.log_error(node.line, node.column, f"المقارنة '{node.op}' غير مسموحة بين '{left_type}' و '{right_type}'.")
@@ -117,7 +146,7 @@ class SemanticAnalyzerVisitor(ASTVisitor):
             'عشري': FLOAT_TYPE,
             'نص': STRING_TYPE,
             'منطقي': BOOL_TYPE,
-            'فارغ': ERROR_TYPE
+            'فارغ': VOID_TYPE
         }
         ret_type = type_mapping.get(node.return_type, ERROR_TYPE)
         func_symbol = FunctionSymbol(node.name, ret_type, len(node.params))
@@ -126,6 +155,9 @@ class SemanticAnalyzerVisitor(ASTVisitor):
         except SemanticError as e:
             self.log_error(node.line, node.column, str(e))
 
+
+        previous_func_return_type = self.current_function_return_type
+        self.current_function_return_type = ret_type
         # دخول النطاق
         previous_env = self.current_env
         self.current_env = Environment(enclosing=previous_env)
@@ -143,6 +175,7 @@ class SemanticAnalyzerVisitor(ASTVisitor):
                 stmt.accept(self)
 
         self.current_env = previous_env
+        self.current_function_return_type = previous_func_return_type
 
     # 9. زيارة بقية العقد المطلوبة لإكمال واجهة الزائر المجردة
     def visit_FuncCallNode(self, node: FuncCallNode):
@@ -150,8 +183,10 @@ class SemanticAnalyzerVisitor(ASTVisitor):
             arg.accept(self)
         try:
             sym = self.current_env.resolve(node.name)
+            node.resolved_type = sym.type
             return sym.type
-        except SemanticError:
+        except SemanticError as e:
+            self.log_error(node.line, node.column, str(e))
             return ERROR_TYPE
 
     def visit_IfNode(self, node: IfNode):
@@ -176,9 +211,28 @@ class SemanticAnalyzerVisitor(ASTVisitor):
         self.loop_depth -= 1  # الخروج من حلقة التكرار
 
     def visit_ReturnNode(self, node: ReturnNode):
+        # 1. Determine what type is being returned
         if node.value:
-            return node.value.accept(self)
-        return ERROR_TYPE
+            ret_type = node.value.accept(self)
+        else:
+            ret_type = VOID_TYPE
+
+        # 2. Check if the returned type matches the function's expected type
+        if self.current_function_return_type:
+            # We ignore ERROR_TYPE to prevent duplicate error spam (poisoning)
+            if ret_type != ERROR_TYPE and ret_type != self.current_function_return_type:
+                self.log_error(
+                           node.line, 
+                    node.column, 
+                    f"نوع الإرجاع '{ret_type}' لا يتطابق مع نوع الدالة '{self.current_function_return_type}'."
+                )
+        else:
+            self.log_error(node.line, node.column, "لا يمكن استخدام أمر 'ارجع' خارج الدوال.")
+
+        # 3. Save the type for the LLVM Generator!
+        node.resolved_type = ret_type 
+        
+        return ret_type
 
     def visit_UnaryOpNode(self, node: UnaryOpNode):
         if node.expr:
