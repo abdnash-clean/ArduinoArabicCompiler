@@ -7,6 +7,7 @@ from frontend.ArArduinoLexer import ArArduinoLexer
 from frontend.ArArduinoParser import ArArduinoParser
 from frontend.ast_builder import ASTBuilderVisitor
 from semantic.semantic_analyzer import SemanticAnalyzerVisitor
+from backend.ir_generator import LLVMIRGenerator
 # from ast_visualizer import ASTVisualizerVisitor
 
 def normalize_arabic_text(text: str) -> str:
@@ -69,9 +70,12 @@ def main():
     else:
         print("✅ الكود سليم دلالياً ونحوياً 100%!")
         print("جاري توليد الرسم الهندسي البصري (PNG)...")
+        ir_generator = LLVMIRGenerator()
         # visualizer = ASTVisualizerVisitor()
         # ast.accept(visualizer)
         # visualizer.render('ar_arduino_ast')
-
+        ast.accept(ir_generator)
+        print("\n--- LLVM IR OUTPUT ---")
+        print(ir_generator.get_ir())
 if __name__ == '__main__':
     main()
