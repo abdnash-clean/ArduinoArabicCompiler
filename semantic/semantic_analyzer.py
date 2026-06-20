@@ -56,9 +56,11 @@ class SemanticAnalyzerVisitor(ASTVisitor):
         declared_type = type_mapping.get(node.var_type, STRING_TYPE)
 
         # التحقق من توافق الأنواع
-        if value_type != ERROR_TYPE and value_type != declared_type:
-            self.log_error(node.line, node.column, f"لا يمكن إسناد قيمة من نوع '{value_type}' إلى متغير من نوع '{declared_type}'.")
-            
+        if value_type != ERROR_TYPE:
+            if value_type == INT_TYPE and declared_type == FLOAT_TYPE:
+                pass # مسموح التحويل من صحيح إلى عشري
+            elif value_type != declared_type:
+                self.log_error(node.line, node.column, f"لا يمكن إسناد قيمة من نوع '{value_type}' إلى متغير من نوع '{declared_type}'.")
         # حفظ المتغير في البيئة
         try:
             sym = VariableSymbol(node.name, declared_type)
@@ -97,6 +99,11 @@ class SemanticAnalyzerVisitor(ASTVisitor):
                 return ERROR_TYPE
             
             declared_type = sym.type
+            
+            if value_type == INT_TYPE and declared_type == FLOAT_TYPE:
+                    node.resolved_type = FLOAT_TYPE 
+                    return FLOAT_TYPE
+            
             if value_type != ERROR_TYPE and value_type != declared_type:
                 self.log_error(node.line, node.column, f"لا يمكن إسناد قيمة من نوع '{value_type}' إلى متغير من نوع '{declared_type}'.")
             else:
@@ -124,6 +131,11 @@ class SemanticAnalyzerVisitor(ASTVisitor):
                 node.resolved_type = FLOAT_TYPE
                 return FLOAT_TYPE
             elif left_type == INT_TYPE and right_type == FLOAT_TYPE:
+                node.left.resolved_type = FLOAT_TYPE
+                node.resolved_type = FLOAT_TYPE
+                return FLOAT_TYPE
+            elif left_type == FLOAT_TYPE and right_type == INT_TYPE:
+                node.right.resolved_type = FLOAT_TYPE
                 node.resolved_type = FLOAT_TYPE
                 return FLOAT_TYPE
             else:
