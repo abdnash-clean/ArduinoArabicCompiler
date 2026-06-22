@@ -5,12 +5,12 @@ options {
 }
 
 // نقطة البداية
-// 1. تحديث نقطة البداية لتسمح بجمل الاستيراد في الأعلى
 program : importStmt* declaration* EOF ;
 
-// 2. إضافة قاعدة الاستيراد (استيراد "اسم_المكتبة" ؛)
+// قاعدة الاستيراد
 importStmt : IMPORT STRING SEMI ;
-// التعريف إما لمتغير (يبدأ بـ VAR) أو دالة (تبدأ بـ FUNCTION)
+
+// التعريف إما لمتغير أو دالة
 declaration 
     : varDecl 
     | funDecl 
@@ -20,10 +20,8 @@ declaration
 varDecl : VAR ID COLON type ASSIGN expression SEMI ;
 
 // --- Left Factoring for Functions ---
-// أخذنا كلمة "دالة" كعامل مشترك أيسر لمنع التداخل
 funDecl : FUNCTION funcBody ;
 
-// ما بعد كلمة "دالة" يحدد نوعها (إعداد، تكرار، أو دالة عادية)
 funcBody
     : SETUP LPAREN RPAREN COLON VOID block
     | LOOP LPAREN RPAREN COLON VOID block
@@ -68,38 +66,38 @@ args : expression (COMA expression)* ;
 // ==========================================
 // --- Eliminating Left Recursion (LL1) ---
 // ==========================================
-// بنينا التعابير على شكل هرمي يمثل أولويات العمليات 
-// من الأضعف (OR) إلى الأقوى (Primary)
-// استخدمنا ()* بدلاً من الاستدعاء الذاتي الأيسر
 
 expression : orExpr ;
 
-// 1. "أو" المنطقية (Logical OR) تليها "و" المنطقية
+// 1. "أو" المنطقية
 orExpr : andExpr (OR andExpr)* ;
 
-// 2. "و" المنطقية (Logical AND) تليها "أو" الثنائية للبت
+// 2. "و" المنطقية
 andExpr : bwOrExpr (AND bwOrExpr)* ;
 
-// 3. إضافة قاعدة الـ Bitwise OR
+// 3. Bitwise OR
 bwOrExpr : bwXorExpr (BW_OR bwXorExpr)* ;
 
-// 4. إضافة قاعدة الـ Bitwise XOR
+// 4. Bitwise XOR
 bwXorExpr : bwAndExpr (BW_XOR bwAndExpr)* ;
 
-// 5. إضافة قاعدة الـ Bitwise AND تليها المقارنات
+// 5. Bitwise AND
 bwAndExpr : relExpr (BW_AND relExpr)* ;
 
-// 6. المقارنات النسبية والمتساوية تليها الجمع والطرح
-relExpr : addExpr (relOp addExpr)* ;
+// 6. المقارنات النسبية والمتساوية تليها الإزاحة
+relExpr : shiftExpr (relOp shiftExpr)* ;
 
-// معاملات المقارنة كما هي
+// معاملات المقارنة
 relOp :  GT | LT | LTE | GTE | EQ | NEQ ; 
+
+// 7. عوامل الإزاحة الثنائية (<< >>) تليها الجمع والطرح
+shiftExpr : addExpr ((SHL | SHR) addExpr)* ;
 
 addExpr : mulExpr ((PLUS | MINUS) mulExpr)* ;
 
 mulExpr : unaryExpr ((MUL | DIV) unaryExpr)* ;
 
-// 7. تحديث قاعدة المعاملات الأحادية لتشمل النفي الثنائي (BW_NOT) والنفي المنطقي (NOT)
+// المعاملات الأحادية تشمل النفي الثنائي (BW_NOT) والنفي المنطقي (NOT)
 unaryExpr 
     : (MINUS | NOT | BW_NOT) unaryExpr 
     | primary 
@@ -108,12 +106,13 @@ unaryExpr
 // --- Left Factoring for Primary ---
 primary
     : NUMBER
+    | BIN_NUMBER
     | TRUE
     | CHAR
     | STRING
     | FALSE
     | LPAREN expression RPAREN
-    | ID primaryIdSuffix  // المعرف قد يكون متغيراً أو استدعاء دالة داخل التعبير
+    | ID primaryIdSuffix  // المعرف قد يكون متغيراً أو استدعاء دالة
     ;
 
 primaryIdSuffix

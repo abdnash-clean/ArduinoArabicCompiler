@@ -10,111 +10,116 @@ else:
 
 def serializedATN():
     return [
-        4,1,58,303,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
+        4,1,61,314,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
         6,2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,
         2,14,7,14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,
         7,20,2,21,7,21,2,22,7,22,2,23,7,23,2,24,7,24,2,25,7,25,2,26,7,26,
-        2,27,7,27,2,28,7,28,2,29,7,29,2,30,7,30,2,31,7,31,1,0,5,0,66,8,0,
-        10,0,12,0,69,9,0,1,0,5,0,72,8,0,10,0,12,0,75,9,0,1,0,1,0,1,1,1,1,
-        1,1,1,1,1,2,1,2,3,2,85,8,2,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,4,1,
-        4,1,4,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,
-        5,3,5,113,8,5,1,5,1,5,1,5,1,5,1,5,3,5,120,8,5,1,6,1,6,1,6,5,6,125,
-        8,6,10,6,12,6,128,9,6,1,7,1,7,1,7,1,7,1,8,1,8,5,8,136,8,8,10,8,12,
-        8,139,9,8,1,8,1,8,1,9,1,9,1,9,1,9,1,9,1,9,1,9,1,9,1,9,1,9,1,9,1,
-        9,1,9,3,9,156,8,9,1,10,1,10,1,10,1,11,1,11,1,11,1,11,1,11,1,11,1,
-        11,3,11,168,8,11,1,11,3,11,171,8,11,1,12,1,12,1,12,1,12,1,12,1,12,
-        1,12,3,12,180,8,12,1,13,1,13,1,13,1,13,1,13,1,13,1,14,1,14,1,14,
-        1,15,1,15,1,15,1,16,1,16,3,16,196,8,16,1,17,1,17,1,17,5,17,201,8,
-        17,10,17,12,17,204,9,17,1,18,1,18,1,19,1,19,1,19,5,19,211,8,19,10,
-        19,12,19,214,9,19,1,20,1,20,1,20,5,20,219,8,20,10,20,12,20,222,9,
-        20,1,21,1,21,1,21,5,21,227,8,21,10,21,12,21,230,9,21,1,22,1,22,1,
-        22,5,22,235,8,22,10,22,12,22,238,9,22,1,23,1,23,1,23,5,23,243,8,
-        23,10,23,12,23,246,9,23,1,24,1,24,1,24,1,24,5,24,252,8,24,10,24,
-        12,24,255,9,24,1,25,1,25,1,26,1,26,1,26,5,26,262,8,26,10,26,12,26,
-        265,9,26,1,27,1,27,1,27,5,27,270,8,27,10,27,12,27,273,9,27,1,28,
-        1,28,1,28,3,28,278,8,28,1,29,1,29,1,29,1,29,1,29,1,29,1,29,1,29,
-        1,29,1,29,1,29,3,29,291,8,29,1,30,1,30,3,30,295,8,30,1,30,1,30,3,
-        30,299,8,30,1,31,1,31,1,31,0,0,32,0,2,4,6,8,10,12,14,16,18,20,22,
-        24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,0,7,
-        1,0,26,27,1,0,24,25,1,0,29,34,1,0,20,21,1,0,22,23,3,0,21,21,37,37,
-        48,48,3,0,7,9,14,14,49,50,310,0,67,1,0,0,0,2,78,1,0,0,0,4,84,1,0,
-        0,0,6,86,1,0,0,0,8,94,1,0,0,0,10,119,1,0,0,0,12,121,1,0,0,0,14,129,
-        1,0,0,0,16,133,1,0,0,0,18,155,1,0,0,0,20,157,1,0,0,0,22,170,1,0,
-        0,0,24,172,1,0,0,0,26,181,1,0,0,0,28,187,1,0,0,0,30,190,1,0,0,0,
-        32,193,1,0,0,0,34,197,1,0,0,0,36,205,1,0,0,0,38,207,1,0,0,0,40,215,
-        1,0,0,0,42,223,1,0,0,0,44,231,1,0,0,0,46,239,1,0,0,0,48,247,1,0,
-        0,0,50,256,1,0,0,0,52,258,1,0,0,0,54,266,1,0,0,0,56,277,1,0,0,0,
-        58,290,1,0,0,0,60,298,1,0,0,0,62,300,1,0,0,0,64,66,3,2,1,0,65,64,
-        1,0,0,0,66,69,1,0,0,0,67,65,1,0,0,0,67,68,1,0,0,0,68,73,1,0,0,0,
-        69,67,1,0,0,0,70,72,3,4,2,0,71,70,1,0,0,0,72,75,1,0,0,0,73,71,1,
-        0,0,0,73,74,1,0,0,0,74,76,1,0,0,0,75,73,1,0,0,0,76,77,5,0,0,1,77,
-        1,1,0,0,0,78,79,5,53,0,0,79,80,5,51,0,0,80,81,5,43,0,0,81,3,1,0,
-        0,0,82,85,3,6,3,0,83,85,3,8,4,0,84,82,1,0,0,0,84,83,1,0,0,0,85,5,
-        1,0,0,0,86,87,5,1,0,0,87,88,5,55,0,0,88,89,5,42,0,0,89,90,3,62,31,
-        0,90,91,5,19,0,0,91,92,3,36,18,0,92,93,5,43,0,0,93,7,1,0,0,0,94,
-        95,5,10,0,0,95,96,3,10,5,0,96,9,1,0,0,0,97,98,5,12,0,0,98,99,5,38,
-        0,0,99,100,5,39,0,0,100,101,5,42,0,0,101,102,5,9,0,0,102,120,3,16,
-        8,0,103,104,5,13,0,0,104,105,5,38,0,0,105,106,5,39,0,0,106,107,5,
-        42,0,0,107,108,5,9,0,0,108,120,3,16,8,0,109,110,5,55,0,0,110,112,
-        5,38,0,0,111,113,3,12,6,0,112,111,1,0,0,0,112,113,1,0,0,0,113,114,
-        1,0,0,0,114,115,5,39,0,0,115,116,5,42,0,0,116,117,3,62,31,0,117,
-        118,3,16,8,0,118,120,1,0,0,0,119,97,1,0,0,0,119,103,1,0,0,0,119,
-        109,1,0,0,0,120,11,1,0,0,0,121,126,3,14,7,0,122,123,5,44,0,0,123,
-        125,3,14,7,0,124,122,1,0,0,0,125,128,1,0,0,0,126,124,1,0,0,0,126,
-        127,1,0,0,0,127,13,1,0,0,0,128,126,1,0,0,0,129,130,5,55,0,0,130,
-        131,5,42,0,0,131,132,3,62,31,0,132,15,1,0,0,0,133,137,5,40,0,0,134,
-        136,3,18,9,0,135,134,1,0,0,0,136,139,1,0,0,0,137,135,1,0,0,0,137,
-        138,1,0,0,0,138,140,1,0,0,0,139,137,1,0,0,0,140,141,5,41,0,0,141,
-        17,1,0,0,0,142,156,3,6,3,0,143,144,3,20,10,0,144,145,5,43,0,0,145,
-        156,1,0,0,0,146,156,3,24,12,0,147,156,3,26,13,0,148,149,3,32,16,
-        0,149,150,5,43,0,0,150,156,1,0,0,0,151,156,3,28,14,0,152,156,3,30,
-        15,0,153,156,3,16,8,0,154,156,5,43,0,0,155,142,1,0,0,0,155,143,1,
-        0,0,0,155,146,1,0,0,0,155,147,1,0,0,0,155,148,1,0,0,0,155,151,1,
-        0,0,0,155,152,1,0,0,0,155,153,1,0,0,0,155,154,1,0,0,0,156,19,1,0,
-        0,0,157,158,5,55,0,0,158,159,3,22,11,0,159,21,1,0,0,0,160,161,5,
-        19,0,0,161,171,3,36,18,0,162,163,7,0,0,0,163,171,3,36,18,0,164,171,
-        7,1,0,0,165,167,5,38,0,0,166,168,3,34,17,0,167,166,1,0,0,0,167,168,
-        1,0,0,0,168,169,1,0,0,0,169,171,5,39,0,0,170,160,1,0,0,0,170,162,
-        1,0,0,0,170,164,1,0,0,0,170,165,1,0,0,0,171,23,1,0,0,0,172,173,5,
-        2,0,0,173,174,5,38,0,0,174,175,3,36,18,0,175,176,5,39,0,0,176,179,
-        3,16,8,0,177,178,5,3,0,0,178,180,3,16,8,0,179,177,1,0,0,0,179,180,
-        1,0,0,0,180,25,1,0,0,0,181,182,5,4,0,0,182,183,5,38,0,0,183,184,
-        3,36,18,0,184,185,5,39,0,0,185,186,3,16,8,0,186,27,1,0,0,0,187,188,
-        5,15,0,0,188,189,5,43,0,0,189,29,1,0,0,0,190,191,5,16,0,0,191,192,
-        5,43,0,0,192,31,1,0,0,0,193,195,5,11,0,0,194,196,3,36,18,0,195,194,
-        1,0,0,0,195,196,1,0,0,0,196,33,1,0,0,0,197,202,3,36,18,0,198,199,
-        5,44,0,0,199,201,3,36,18,0,200,198,1,0,0,0,201,204,1,0,0,0,202,200,
-        1,0,0,0,202,203,1,0,0,0,203,35,1,0,0,0,204,202,1,0,0,0,205,206,3,
-        38,19,0,206,37,1,0,0,0,207,212,3,40,20,0,208,209,5,35,0,0,209,211,
-        3,40,20,0,210,208,1,0,0,0,211,214,1,0,0,0,212,210,1,0,0,0,212,213,
-        1,0,0,0,213,39,1,0,0,0,214,212,1,0,0,0,215,220,3,42,21,0,216,217,
-        5,36,0,0,217,219,3,42,21,0,218,216,1,0,0,0,219,222,1,0,0,0,220,218,
-        1,0,0,0,220,221,1,0,0,0,221,41,1,0,0,0,222,220,1,0,0,0,223,228,3,
-        44,22,0,224,225,5,45,0,0,225,227,3,44,22,0,226,224,1,0,0,0,227,230,
-        1,0,0,0,228,226,1,0,0,0,228,229,1,0,0,0,229,43,1,0,0,0,230,228,1,
-        0,0,0,231,236,3,46,23,0,232,233,5,47,0,0,233,235,3,46,23,0,234,232,
-        1,0,0,0,235,238,1,0,0,0,236,234,1,0,0,0,236,237,1,0,0,0,237,45,1,
-        0,0,0,238,236,1,0,0,0,239,244,3,48,24,0,240,241,5,46,0,0,241,243,
-        3,48,24,0,242,240,1,0,0,0,243,246,1,0,0,0,244,242,1,0,0,0,244,245,
-        1,0,0,0,245,47,1,0,0,0,246,244,1,0,0,0,247,253,3,52,26,0,248,249,
-        3,50,25,0,249,250,3,52,26,0,250,252,1,0,0,0,251,248,1,0,0,0,252,
-        255,1,0,0,0,253,251,1,0,0,0,253,254,1,0,0,0,254,49,1,0,0,0,255,253,
-        1,0,0,0,256,257,7,2,0,0,257,51,1,0,0,0,258,263,3,54,27,0,259,260,
-        7,3,0,0,260,262,3,54,27,0,261,259,1,0,0,0,262,265,1,0,0,0,263,261,
-        1,0,0,0,263,264,1,0,0,0,264,53,1,0,0,0,265,263,1,0,0,0,266,271,3,
-        56,28,0,267,268,7,4,0,0,268,270,3,56,28,0,269,267,1,0,0,0,270,273,
-        1,0,0,0,271,269,1,0,0,0,271,272,1,0,0,0,272,55,1,0,0,0,273,271,1,
-        0,0,0,274,275,7,5,0,0,275,278,3,56,28,0,276,278,3,58,29,0,277,274,
-        1,0,0,0,277,276,1,0,0,0,278,57,1,0,0,0,279,291,5,54,0,0,280,291,
-        5,5,0,0,281,291,5,52,0,0,282,291,5,51,0,0,283,291,5,6,0,0,284,285,
-        5,38,0,0,285,286,3,36,18,0,286,287,5,39,0,0,287,291,1,0,0,0,288,
-        289,5,55,0,0,289,291,3,60,30,0,290,279,1,0,0,0,290,280,1,0,0,0,290,
-        281,1,0,0,0,290,282,1,0,0,0,290,283,1,0,0,0,290,284,1,0,0,0,290,
-        288,1,0,0,0,291,59,1,0,0,0,292,294,5,38,0,0,293,295,3,34,17,0,294,
-        293,1,0,0,0,294,295,1,0,0,0,295,296,1,0,0,0,296,299,5,39,0,0,297,
-        299,1,0,0,0,298,292,1,0,0,0,298,297,1,0,0,0,299,61,1,0,0,0,300,301,
-        7,6,0,0,301,63,1,0,0,0,25,67,73,84,112,119,126,137,155,167,170,179,
-        195,202,212,220,228,236,244,253,263,271,277,290,294,298
+        2,27,7,27,2,28,7,28,2,29,7,29,2,30,7,30,2,31,7,31,2,32,7,32,1,0,
+        5,0,68,8,0,10,0,12,0,71,9,0,1,0,5,0,74,8,0,10,0,12,0,77,9,0,1,0,
+        1,0,1,1,1,1,1,1,1,1,1,2,1,2,3,2,87,8,2,1,3,1,3,1,3,1,3,1,3,1,3,1,
+        3,1,3,1,4,1,4,1,4,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,
+        5,1,5,1,5,1,5,3,5,115,8,5,1,5,1,5,1,5,1,5,1,5,3,5,122,8,5,1,6,1,
+        6,1,6,5,6,127,8,6,10,6,12,6,130,9,6,1,7,1,7,1,7,1,7,1,8,1,8,5,8,
+        138,8,8,10,8,12,8,141,9,8,1,8,1,8,1,9,1,9,1,9,1,9,1,9,1,9,1,9,1,
+        9,1,9,1,9,1,9,1,9,1,9,3,9,158,8,9,1,10,1,10,1,10,1,11,1,11,1,11,
+        1,11,1,11,1,11,1,11,3,11,170,8,11,1,11,3,11,173,8,11,1,12,1,12,1,
+        12,1,12,1,12,1,12,1,12,3,12,182,8,12,1,13,1,13,1,13,1,13,1,13,1,
+        13,1,14,1,14,1,14,1,15,1,15,1,15,1,16,1,16,3,16,198,8,16,1,17,1,
+        17,1,17,5,17,203,8,17,10,17,12,17,206,9,17,1,18,1,18,1,19,1,19,1,
+        19,5,19,213,8,19,10,19,12,19,216,9,19,1,20,1,20,1,20,5,20,221,8,
+        20,10,20,12,20,224,9,20,1,21,1,21,1,21,5,21,229,8,21,10,21,12,21,
+        232,9,21,1,22,1,22,1,22,5,22,237,8,22,10,22,12,22,240,9,22,1,23,
+        1,23,1,23,5,23,245,8,23,10,23,12,23,248,9,23,1,24,1,24,1,24,1,24,
+        5,24,254,8,24,10,24,12,24,257,9,24,1,25,1,25,1,26,1,26,1,26,5,26,
+        264,8,26,10,26,12,26,267,9,26,1,27,1,27,1,27,5,27,272,8,27,10,27,
+        12,27,275,9,27,1,28,1,28,1,28,5,28,280,8,28,10,28,12,28,283,9,28,
+        1,29,1,29,1,29,3,29,288,8,29,1,30,1,30,1,30,1,30,1,30,1,30,1,30,
+        1,30,1,30,1,30,1,30,1,30,3,30,302,8,30,1,31,1,31,3,31,306,8,31,1,
+        31,1,31,3,31,310,8,31,1,32,1,32,1,32,0,0,33,0,2,4,6,8,10,12,14,16,
+        18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,
+        62,64,0,8,1,0,26,27,1,0,24,25,1,0,31,36,1,0,29,30,1,0,20,21,1,0,
+        22,23,3,0,21,21,39,39,50,50,3,0,7,9,14,14,51,52,322,0,69,1,0,0,0,
+        2,80,1,0,0,0,4,86,1,0,0,0,6,88,1,0,0,0,8,96,1,0,0,0,10,121,1,0,0,
+        0,12,123,1,0,0,0,14,131,1,0,0,0,16,135,1,0,0,0,18,157,1,0,0,0,20,
+        159,1,0,0,0,22,172,1,0,0,0,24,174,1,0,0,0,26,183,1,0,0,0,28,189,
+        1,0,0,0,30,192,1,0,0,0,32,195,1,0,0,0,34,199,1,0,0,0,36,207,1,0,
+        0,0,38,209,1,0,0,0,40,217,1,0,0,0,42,225,1,0,0,0,44,233,1,0,0,0,
+        46,241,1,0,0,0,48,249,1,0,0,0,50,258,1,0,0,0,52,260,1,0,0,0,54,268,
+        1,0,0,0,56,276,1,0,0,0,58,287,1,0,0,0,60,301,1,0,0,0,62,309,1,0,
+        0,0,64,311,1,0,0,0,66,68,3,2,1,0,67,66,1,0,0,0,68,71,1,0,0,0,69,
+        67,1,0,0,0,69,70,1,0,0,0,70,75,1,0,0,0,71,69,1,0,0,0,72,74,3,4,2,
+        0,73,72,1,0,0,0,74,77,1,0,0,0,75,73,1,0,0,0,75,76,1,0,0,0,76,78,
+        1,0,0,0,77,75,1,0,0,0,78,79,5,0,0,1,79,1,1,0,0,0,80,81,5,55,0,0,
+        81,82,5,53,0,0,82,83,5,45,0,0,83,3,1,0,0,0,84,87,3,6,3,0,85,87,3,
+        8,4,0,86,84,1,0,0,0,86,85,1,0,0,0,87,5,1,0,0,0,88,89,5,1,0,0,89,
+        90,5,58,0,0,90,91,5,44,0,0,91,92,3,64,32,0,92,93,5,19,0,0,93,94,
+        3,36,18,0,94,95,5,45,0,0,95,7,1,0,0,0,96,97,5,10,0,0,97,98,3,10,
+        5,0,98,9,1,0,0,0,99,100,5,12,0,0,100,101,5,40,0,0,101,102,5,41,0,
+        0,102,103,5,44,0,0,103,104,5,9,0,0,104,122,3,16,8,0,105,106,5,13,
+        0,0,106,107,5,40,0,0,107,108,5,41,0,0,108,109,5,44,0,0,109,110,5,
+        9,0,0,110,122,3,16,8,0,111,112,5,58,0,0,112,114,5,40,0,0,113,115,
+        3,12,6,0,114,113,1,0,0,0,114,115,1,0,0,0,115,116,1,0,0,0,116,117,
+        5,41,0,0,117,118,5,44,0,0,118,119,3,64,32,0,119,120,3,16,8,0,120,
+        122,1,0,0,0,121,99,1,0,0,0,121,105,1,0,0,0,121,111,1,0,0,0,122,11,
+        1,0,0,0,123,128,3,14,7,0,124,125,5,46,0,0,125,127,3,14,7,0,126,124,
+        1,0,0,0,127,130,1,0,0,0,128,126,1,0,0,0,128,129,1,0,0,0,129,13,1,
+        0,0,0,130,128,1,0,0,0,131,132,5,58,0,0,132,133,5,44,0,0,133,134,
+        3,64,32,0,134,15,1,0,0,0,135,139,5,42,0,0,136,138,3,18,9,0,137,136,
+        1,0,0,0,138,141,1,0,0,0,139,137,1,0,0,0,139,140,1,0,0,0,140,142,
+        1,0,0,0,141,139,1,0,0,0,142,143,5,43,0,0,143,17,1,0,0,0,144,158,
+        3,6,3,0,145,146,3,20,10,0,146,147,5,45,0,0,147,158,1,0,0,0,148,158,
+        3,24,12,0,149,158,3,26,13,0,150,151,3,32,16,0,151,152,5,45,0,0,152,
+        158,1,0,0,0,153,158,3,28,14,0,154,158,3,30,15,0,155,158,3,16,8,0,
+        156,158,5,45,0,0,157,144,1,0,0,0,157,145,1,0,0,0,157,148,1,0,0,0,
+        157,149,1,0,0,0,157,150,1,0,0,0,157,153,1,0,0,0,157,154,1,0,0,0,
+        157,155,1,0,0,0,157,156,1,0,0,0,158,19,1,0,0,0,159,160,5,58,0,0,
+        160,161,3,22,11,0,161,21,1,0,0,0,162,163,5,19,0,0,163,173,3,36,18,
+        0,164,165,7,0,0,0,165,173,3,36,18,0,166,173,7,1,0,0,167,169,5,40,
+        0,0,168,170,3,34,17,0,169,168,1,0,0,0,169,170,1,0,0,0,170,171,1,
+        0,0,0,171,173,5,41,0,0,172,162,1,0,0,0,172,164,1,0,0,0,172,166,1,
+        0,0,0,172,167,1,0,0,0,173,23,1,0,0,0,174,175,5,2,0,0,175,176,5,40,
+        0,0,176,177,3,36,18,0,177,178,5,41,0,0,178,181,3,16,8,0,179,180,
+        5,3,0,0,180,182,3,16,8,0,181,179,1,0,0,0,181,182,1,0,0,0,182,25,
+        1,0,0,0,183,184,5,4,0,0,184,185,5,40,0,0,185,186,3,36,18,0,186,187,
+        5,41,0,0,187,188,3,16,8,0,188,27,1,0,0,0,189,190,5,15,0,0,190,191,
+        5,45,0,0,191,29,1,0,0,0,192,193,5,16,0,0,193,194,5,45,0,0,194,31,
+        1,0,0,0,195,197,5,11,0,0,196,198,3,36,18,0,197,196,1,0,0,0,197,198,
+        1,0,0,0,198,33,1,0,0,0,199,204,3,36,18,0,200,201,5,46,0,0,201,203,
+        3,36,18,0,202,200,1,0,0,0,203,206,1,0,0,0,204,202,1,0,0,0,204,205,
+        1,0,0,0,205,35,1,0,0,0,206,204,1,0,0,0,207,208,3,38,19,0,208,37,
+        1,0,0,0,209,214,3,40,20,0,210,211,5,37,0,0,211,213,3,40,20,0,212,
+        210,1,0,0,0,213,216,1,0,0,0,214,212,1,0,0,0,214,215,1,0,0,0,215,
+        39,1,0,0,0,216,214,1,0,0,0,217,222,3,42,21,0,218,219,5,38,0,0,219,
+        221,3,42,21,0,220,218,1,0,0,0,221,224,1,0,0,0,222,220,1,0,0,0,222,
+        223,1,0,0,0,223,41,1,0,0,0,224,222,1,0,0,0,225,230,3,44,22,0,226,
+        227,5,47,0,0,227,229,3,44,22,0,228,226,1,0,0,0,229,232,1,0,0,0,230,
+        228,1,0,0,0,230,231,1,0,0,0,231,43,1,0,0,0,232,230,1,0,0,0,233,238,
+        3,46,23,0,234,235,5,49,0,0,235,237,3,46,23,0,236,234,1,0,0,0,237,
+        240,1,0,0,0,238,236,1,0,0,0,238,239,1,0,0,0,239,45,1,0,0,0,240,238,
+        1,0,0,0,241,246,3,48,24,0,242,243,5,48,0,0,243,245,3,48,24,0,244,
+        242,1,0,0,0,245,248,1,0,0,0,246,244,1,0,0,0,246,247,1,0,0,0,247,
+        47,1,0,0,0,248,246,1,0,0,0,249,255,3,52,26,0,250,251,3,50,25,0,251,
+        252,3,52,26,0,252,254,1,0,0,0,253,250,1,0,0,0,254,257,1,0,0,0,255,
+        253,1,0,0,0,255,256,1,0,0,0,256,49,1,0,0,0,257,255,1,0,0,0,258,259,
+        7,2,0,0,259,51,1,0,0,0,260,265,3,54,27,0,261,262,7,3,0,0,262,264,
+        3,54,27,0,263,261,1,0,0,0,264,267,1,0,0,0,265,263,1,0,0,0,265,266,
+        1,0,0,0,266,53,1,0,0,0,267,265,1,0,0,0,268,273,3,56,28,0,269,270,
+        7,4,0,0,270,272,3,56,28,0,271,269,1,0,0,0,272,275,1,0,0,0,273,271,
+        1,0,0,0,273,274,1,0,0,0,274,55,1,0,0,0,275,273,1,0,0,0,276,281,3,
+        58,29,0,277,278,7,5,0,0,278,280,3,58,29,0,279,277,1,0,0,0,280,283,
+        1,0,0,0,281,279,1,0,0,0,281,282,1,0,0,0,282,57,1,0,0,0,283,281,1,
+        0,0,0,284,285,7,6,0,0,285,288,3,58,29,0,286,288,3,60,30,0,287,284,
+        1,0,0,0,287,286,1,0,0,0,288,59,1,0,0,0,289,302,5,57,0,0,290,302,
+        5,56,0,0,291,302,5,5,0,0,292,302,5,54,0,0,293,302,5,53,0,0,294,302,
+        5,6,0,0,295,296,5,40,0,0,296,297,3,36,18,0,297,298,5,41,0,0,298,
+        302,1,0,0,0,299,300,5,58,0,0,300,302,3,62,31,0,301,289,1,0,0,0,301,
+        290,1,0,0,0,301,291,1,0,0,0,301,292,1,0,0,0,301,293,1,0,0,0,301,
+        294,1,0,0,0,301,295,1,0,0,0,301,299,1,0,0,0,302,61,1,0,0,0,303,305,
+        5,40,0,0,304,306,3,34,17,0,305,304,1,0,0,0,305,306,1,0,0,0,306,307,
+        1,0,0,0,307,310,5,41,0,0,308,310,1,0,0,0,309,303,1,0,0,0,309,308,
+        1,0,0,0,310,63,1,0,0,0,311,312,7,7,0,0,312,65,1,0,0,0,26,69,75,86,
+        114,121,128,139,157,169,172,181,197,204,214,222,230,238,246,255,
+        265,273,281,287,301,305,309
     ]
 
 class ArArduinoParser ( Parser ):
@@ -136,21 +141,23 @@ class ArArduinoParser ( Parser ):
                      "'\\u0627\\u0642\\u0637\\u0639'", "'\\u062A\\u062C\\u0627\\u0648\\u0632'", 
                      "'\\u0646\\u0641\\u0630'", "'\\u0627\\u0643\\u062A\\u0628'", 
                      "'='", "'+'", "'-'", "'*'", "'/'", "'++'", "'--'", 
-                     "'+='", "'-='", "'%'", "'>='", "'<='", "'=='", "'!='", 
-                     "'>'", "'<'", "<INVALID>", "<INVALID>", "<INVALID>", 
-                     "'('", "')'", "'{'", "'}'", "':'", "'\\u061B'", "'\\u060C'", 
-                     "'|'", "'&'", "'^'", "'~'", "'\\u0646\\u0635'", "'\\u062D\\u0631\\u0641'" ]
+                     "'+='", "'-='", "'%'", "'<<'", "'>>'", "'>='", "'<='", 
+                     "'=='", "'!='", "'>'", "'<'", "<INVALID>", "<INVALID>", 
+                     "<INVALID>", "'('", "')'", "'{'", "'}'", "':'", "'\\u061B'", 
+                     "'\\u060C'", "'|'", "'&'", "'^'", "'~'", "'\\u0646\\u0635'", 
+                     "'\\u062D\\u0631\\u0641'" ]
 
     symbolicNames = [ "<INVALID>", "VAR", "IF", "ELSE", "WHILE", "TRUE", 
                       "FALSE", "INT_T", "FLOAT_T", "VOID", "FUNCTION", "RETURN", 
                       "SETUP", "LOOP", "BOOL", "BREAK", "CONTINUE", "DO", 
                       "PRINT", "ASSIGN", "PLUS", "MINUS", "MUL", "DIV", 
-                      "INC", "DEC", "ADD_ASSIGN", "SUB_ASSIGN", "MOD", "GTE", 
-                      "LTE", "EQ", "NEQ", "GT", "LT", "OR", "AND", "NOT", 
-                      "LPAREN", "RPAREN", "LBRACE", "RBRACE", "COLON", "SEMI", 
-                      "COMA", "BW_OR", "BW_AND", "BW_XOR", "BW_NOT", "STRING_T", 
-                      "CHAR_T", "STRING", "CHAR", "IMPORT", "NUMBER", "ID", 
-                      "WS", "LINE_COMMENT", "BLOCK_COMMENT" ]
+                      "INC", "DEC", "ADD_ASSIGN", "SUB_ASSIGN", "MOD", "SHL", 
+                      "SHR", "GTE", "LTE", "EQ", "NEQ", "GT", "LT", "OR", 
+                      "AND", "NOT", "LPAREN", "RPAREN", "LBRACE", "RBRACE", 
+                      "COLON", "SEMI", "COMA", "BW_OR", "BW_AND", "BW_XOR", 
+                      "BW_NOT", "STRING_T", "CHAR_T", "STRING", "CHAR", 
+                      "IMPORT", "BIN_NUMBER", "NUMBER", "ID", "WS", "LINE_COMMENT", 
+                      "BLOCK_COMMENT" ]
 
     RULE_program = 0
     RULE_importStmt = 1
@@ -178,20 +185,21 @@ class ArArduinoParser ( Parser ):
     RULE_bwAndExpr = 23
     RULE_relExpr = 24
     RULE_relOp = 25
-    RULE_addExpr = 26
-    RULE_mulExpr = 27
-    RULE_unaryExpr = 28
-    RULE_primary = 29
-    RULE_primaryIdSuffix = 30
-    RULE_type = 31
+    RULE_shiftExpr = 26
+    RULE_addExpr = 27
+    RULE_mulExpr = 28
+    RULE_unaryExpr = 29
+    RULE_primary = 30
+    RULE_primaryIdSuffix = 31
+    RULE_type = 32
 
     ruleNames =  [ "program", "importStmt", "declaration", "varDecl", "funDecl", 
                    "funcBody", "params", "param", "block", "statement", 
                    "idStatement", "idSuffix", "ifStat", "whileStat", "breakStat", 
                    "continueStat", "returnStat", "args", "expression", "orExpr", 
                    "andExpr", "bwOrExpr", "bwXorExpr", "bwAndExpr", "relExpr", 
-                   "relOp", "addExpr", "mulExpr", "unaryExpr", "primary", 
-                   "primaryIdSuffix", "type" ]
+                   "relOp", "shiftExpr", "addExpr", "mulExpr", "unaryExpr", 
+                   "primary", "primaryIdSuffix", "type" ]
 
     EOF = Token.EOF
     VAR=1
@@ -222,36 +230,39 @@ class ArArduinoParser ( Parser ):
     ADD_ASSIGN=26
     SUB_ASSIGN=27
     MOD=28
-    GTE=29
-    LTE=30
-    EQ=31
-    NEQ=32
-    GT=33
-    LT=34
-    OR=35
-    AND=36
-    NOT=37
-    LPAREN=38
-    RPAREN=39
-    LBRACE=40
-    RBRACE=41
-    COLON=42
-    SEMI=43
-    COMA=44
-    BW_OR=45
-    BW_AND=46
-    BW_XOR=47
-    BW_NOT=48
-    STRING_T=49
-    CHAR_T=50
-    STRING=51
-    CHAR=52
-    IMPORT=53
-    NUMBER=54
-    ID=55
-    WS=56
-    LINE_COMMENT=57
-    BLOCK_COMMENT=58
+    SHL=29
+    SHR=30
+    GTE=31
+    LTE=32
+    EQ=33
+    NEQ=34
+    GT=35
+    LT=36
+    OR=37
+    AND=38
+    NOT=39
+    LPAREN=40
+    RPAREN=41
+    LBRACE=42
+    RBRACE=43
+    COLON=44
+    SEMI=45
+    COMA=46
+    BW_OR=47
+    BW_AND=48
+    BW_XOR=49
+    BW_NOT=50
+    STRING_T=51
+    CHAR_T=52
+    STRING=53
+    CHAR=54
+    IMPORT=55
+    BIN_NUMBER=56
+    NUMBER=57
+    ID=58
+    WS=59
+    LINE_COMMENT=60
+    BLOCK_COMMENT=61
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
@@ -313,27 +324,27 @@ class ArArduinoParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 67
+            self.state = 69
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==53:
-                self.state = 64
+            while _la==55:
+                self.state = 66
                 self.importStmt()
-                self.state = 69
+                self.state = 71
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 73
+            self.state = 75
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==1 or _la==10:
-                self.state = 70
+                self.state = 72
                 self.declaration()
-                self.state = 75
+                self.state = 77
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 76
+            self.state = 78
             self.match(ArArduinoParser.EOF)
         except RecognitionException as re:
             localctx.exception = re
@@ -386,11 +397,11 @@ class ArArduinoParser ( Parser ):
         self.enterRule(localctx, 2, self.RULE_importStmt)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 78
-            self.match(ArArduinoParser.IMPORT)
-            self.state = 79
-            self.match(ArArduinoParser.STRING)
             self.state = 80
+            self.match(ArArduinoParser.IMPORT)
+            self.state = 81
+            self.match(ArArduinoParser.STRING)
+            self.state = 82
             self.match(ArArduinoParser.SEMI)
         except RecognitionException as re:
             localctx.exception = re
@@ -441,17 +452,17 @@ class ArArduinoParser ( Parser ):
         localctx = ArArduinoParser.DeclarationContext(self, self._ctx, self.state)
         self.enterRule(localctx, 4, self.RULE_declaration)
         try:
-            self.state = 84
+            self.state = 86
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [1]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 82
+                self.state = 84
                 self.varDecl()
                 pass
             elif token in [10]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 83
+                self.state = 85
                 self.funDecl()
                 pass
             else:
@@ -522,19 +533,19 @@ class ArArduinoParser ( Parser ):
         self.enterRule(localctx, 6, self.RULE_varDecl)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 86
-            self.match(ArArduinoParser.VAR)
-            self.state = 87
-            self.match(ArArduinoParser.ID)
             self.state = 88
-            self.match(ArArduinoParser.COLON)
+            self.match(ArArduinoParser.VAR)
             self.state = 89
-            self.type_()
+            self.match(ArArduinoParser.ID)
             self.state = 90
-            self.match(ArArduinoParser.ASSIGN)
+            self.match(ArArduinoParser.COLON)
             self.state = 91
-            self.expression()
+            self.type_()
             self.state = 92
+            self.match(ArArduinoParser.ASSIGN)
+            self.state = 93
+            self.expression()
+            self.state = 94
             self.match(ArArduinoParser.SEMI)
         except RecognitionException as re:
             localctx.exception = re
@@ -585,9 +596,9 @@ class ArArduinoParser ( Parser ):
         self.enterRule(localctx, 8, self.RULE_funDecl)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 94
+            self.state = 96
             self.match(ArArduinoParser.FUNCTION)
-            self.state = 95
+            self.state = 97
             self.funcBody()
         except RecognitionException as re:
             localctx.exception = re
@@ -664,60 +675,60 @@ class ArArduinoParser ( Parser ):
         self.enterRule(localctx, 10, self.RULE_funcBody)
         self._la = 0 # Token type
         try:
-            self.state = 119
+            self.state = 121
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [12]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 97
-                self.match(ArArduinoParser.SETUP)
-                self.state = 98
-                self.match(ArArduinoParser.LPAREN)
                 self.state = 99
-                self.match(ArArduinoParser.RPAREN)
+                self.match(ArArduinoParser.SETUP)
                 self.state = 100
-                self.match(ArArduinoParser.COLON)
+                self.match(ArArduinoParser.LPAREN)
                 self.state = 101
-                self.match(ArArduinoParser.VOID)
+                self.match(ArArduinoParser.RPAREN)
                 self.state = 102
+                self.match(ArArduinoParser.COLON)
+                self.state = 103
+                self.match(ArArduinoParser.VOID)
+                self.state = 104
                 self.block()
                 pass
             elif token in [13]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 103
-                self.match(ArArduinoParser.LOOP)
-                self.state = 104
-                self.match(ArArduinoParser.LPAREN)
                 self.state = 105
-                self.match(ArArduinoParser.RPAREN)
+                self.match(ArArduinoParser.LOOP)
                 self.state = 106
-                self.match(ArArduinoParser.COLON)
+                self.match(ArArduinoParser.LPAREN)
                 self.state = 107
-                self.match(ArArduinoParser.VOID)
+                self.match(ArArduinoParser.RPAREN)
                 self.state = 108
+                self.match(ArArduinoParser.COLON)
+                self.state = 109
+                self.match(ArArduinoParser.VOID)
+                self.state = 110
                 self.block()
                 pass
-            elif token in [55]:
+            elif token in [58]:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 109
+                self.state = 111
                 self.match(ArArduinoParser.ID)
-                self.state = 110
-                self.match(ArArduinoParser.LPAREN)
                 self.state = 112
+                self.match(ArArduinoParser.LPAREN)
+                self.state = 114
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if _la==55:
-                    self.state = 111
+                if _la==58:
+                    self.state = 113
                     self.params()
 
 
-                self.state = 114
-                self.match(ArArduinoParser.RPAREN)
-                self.state = 115
-                self.match(ArArduinoParser.COLON)
                 self.state = 116
-                self.type_()
+                self.match(ArArduinoParser.RPAREN)
                 self.state = 117
+                self.match(ArArduinoParser.COLON)
+                self.state = 118
+                self.type_()
+                self.state = 119
                 self.block()
                 pass
             else:
@@ -779,17 +790,17 @@ class ArArduinoParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 121
+            self.state = 123
             self.param()
-            self.state = 126
+            self.state = 128
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==44:
-                self.state = 122
+            while _la==46:
+                self.state = 124
                 self.match(ArArduinoParser.COMA)
-                self.state = 123
+                self.state = 125
                 self.param()
-                self.state = 128
+                self.state = 130
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -845,11 +856,11 @@ class ArArduinoParser ( Parser ):
         self.enterRule(localctx, 14, self.RULE_param)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 129
-            self.match(ArArduinoParser.ID)
-            self.state = 130
-            self.match(ArArduinoParser.COLON)
             self.state = 131
+            self.match(ArArduinoParser.ID)
+            self.state = 132
+            self.match(ArArduinoParser.COLON)
+            self.state = 133
             self.type_()
         except RecognitionException as re:
             localctx.exception = re
@@ -907,19 +918,19 @@ class ArArduinoParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 133
+            self.state = 135
             self.match(ArArduinoParser.LBRACE)
-            self.state = 137
+            self.state = 139
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while (((_la) & ~0x3f) == 0 and ((1 << _la) & 36038692623714326) != 0):
-                self.state = 134
+            while (((_la) & ~0x3f) == 0 and ((1 << _la) & 288269958570412054) != 0):
+                self.state = 136
                 self.statement()
-                self.state = 139
+                self.state = 141
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 140
+            self.state = 142
             self.match(ArArduinoParser.RBRACE)
         except RecognitionException as re:
             localctx.exception = re
@@ -997,56 +1008,56 @@ class ArArduinoParser ( Parser ):
         localctx = ArArduinoParser.StatementContext(self, self._ctx, self.state)
         self.enterRule(localctx, 18, self.RULE_statement)
         try:
-            self.state = 155
+            self.state = 157
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [1]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 142
+                self.state = 144
                 self.varDecl()
                 pass
-            elif token in [55]:
+            elif token in [58]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 143
+                self.state = 145
                 self.idStatement()
-                self.state = 144
+                self.state = 146
                 self.match(ArArduinoParser.SEMI)
                 pass
             elif token in [2]:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 146
+                self.state = 148
                 self.ifStat()
                 pass
             elif token in [4]:
                 self.enterOuterAlt(localctx, 4)
-                self.state = 147
+                self.state = 149
                 self.whileStat()
                 pass
             elif token in [11]:
                 self.enterOuterAlt(localctx, 5)
-                self.state = 148
+                self.state = 150
                 self.returnStat()
-                self.state = 149
+                self.state = 151
                 self.match(ArArduinoParser.SEMI)
                 pass
             elif token in [15]:
                 self.enterOuterAlt(localctx, 6)
-                self.state = 151
+                self.state = 153
                 self.breakStat()
                 pass
             elif token in [16]:
                 self.enterOuterAlt(localctx, 7)
-                self.state = 152
+                self.state = 154
                 self.continueStat()
                 pass
-            elif token in [40]:
+            elif token in [42]:
                 self.enterOuterAlt(localctx, 8)
-                self.state = 153
+                self.state = 155
                 self.block()
                 pass
-            elif token in [43]:
+            elif token in [45]:
                 self.enterOuterAlt(localctx, 9)
-                self.state = 154
+                self.state = 156
                 self.match(ArArduinoParser.SEMI)
                 pass
             else:
@@ -1101,9 +1112,9 @@ class ArArduinoParser ( Parser ):
         self.enterRule(localctx, 20, self.RULE_idStatement)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 157
+            self.state = 159
             self.match(ArArduinoParser.ID)
-            self.state = 158
+            self.state = 160
             self.idSuffix()
         except RecognitionException as re:
             localctx.exception = re
@@ -1176,31 +1187,31 @@ class ArArduinoParser ( Parser ):
         self.enterRule(localctx, 22, self.RULE_idSuffix)
         self._la = 0 # Token type
         try:
-            self.state = 170
+            self.state = 172
             self._errHandler.sync(self)
             token = self._input.LA(1)
             if token in [19]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 160
+                self.state = 162
                 self.match(ArArduinoParser.ASSIGN)
-                self.state = 161
+                self.state = 163
                 self.expression()
                 pass
             elif token in [26, 27]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 162
+                self.state = 164
                 _la = self._input.LA(1)
                 if not(_la==26 or _la==27):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
                     self.consume()
-                self.state = 163
+                self.state = 165
                 self.expression()
                 pass
             elif token in [24, 25]:
                 self.enterOuterAlt(localctx, 3)
-                self.state = 164
+                self.state = 166
                 _la = self._input.LA(1)
                 if not(_la==24 or _la==25):
                     self._errHandler.recoverInline(self)
@@ -1208,19 +1219,19 @@ class ArArduinoParser ( Parser ):
                     self._errHandler.reportMatch(self)
                     self.consume()
                 pass
-            elif token in [38]:
+            elif token in [40]:
                 self.enterOuterAlt(localctx, 4)
-                self.state = 165
-                self.match(ArArduinoParser.LPAREN)
                 self.state = 167
+                self.match(ArArduinoParser.LPAREN)
+                self.state = 169
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if (((_la) & ~0x3f) == 0 and ((1 << _la) & 61080482265170016) != 0):
-                    self.state = 166
+                if (((_la) & ~0x3f) == 0 and ((1 << _la) & 532552305206100064) != 0):
+                    self.state = 168
                     self.args()
 
 
-                self.state = 169
+                self.state = 171
                 self.match(ArArduinoParser.RPAREN)
                 pass
             else:
@@ -1292,23 +1303,23 @@ class ArArduinoParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 172
-            self.match(ArArduinoParser.IF)
-            self.state = 173
-            self.match(ArArduinoParser.LPAREN)
             self.state = 174
-            self.expression()
+            self.match(ArArduinoParser.IF)
             self.state = 175
-            self.match(ArArduinoParser.RPAREN)
+            self.match(ArArduinoParser.LPAREN)
             self.state = 176
+            self.expression()
+            self.state = 177
+            self.match(ArArduinoParser.RPAREN)
+            self.state = 178
             self.block()
-            self.state = 179
+            self.state = 181
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             if _la==3:
-                self.state = 177
+                self.state = 179
                 self.match(ArArduinoParser.ELSE)
-                self.state = 178
+                self.state = 180
                 self.block()
 
 
@@ -1371,15 +1382,15 @@ class ArArduinoParser ( Parser ):
         self.enterRule(localctx, 26, self.RULE_whileStat)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 181
-            self.match(ArArduinoParser.WHILE)
-            self.state = 182
-            self.match(ArArduinoParser.LPAREN)
             self.state = 183
-            self.expression()
+            self.match(ArArduinoParser.WHILE)
             self.state = 184
-            self.match(ArArduinoParser.RPAREN)
+            self.match(ArArduinoParser.LPAREN)
             self.state = 185
+            self.expression()
+            self.state = 186
+            self.match(ArArduinoParser.RPAREN)
+            self.state = 187
             self.block()
         except RecognitionException as re:
             localctx.exception = re
@@ -1429,9 +1440,9 @@ class ArArduinoParser ( Parser ):
         self.enterRule(localctx, 28, self.RULE_breakStat)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 187
+            self.state = 189
             self.match(ArArduinoParser.BREAK)
-            self.state = 188
+            self.state = 190
             self.match(ArArduinoParser.SEMI)
         except RecognitionException as re:
             localctx.exception = re
@@ -1481,9 +1492,9 @@ class ArArduinoParser ( Parser ):
         self.enterRule(localctx, 30, self.RULE_continueStat)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 190
+            self.state = 192
             self.match(ArArduinoParser.CONTINUE)
-            self.state = 191
+            self.state = 193
             self.match(ArArduinoParser.SEMI)
         except RecognitionException as re:
             localctx.exception = re
@@ -1535,13 +1546,13 @@ class ArArduinoParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 193
-            self.match(ArArduinoParser.RETURN)
             self.state = 195
+            self.match(ArArduinoParser.RETURN)
+            self.state = 197
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if (((_la) & ~0x3f) == 0 and ((1 << _la) & 61080482265170016) != 0):
-                self.state = 194
+            if (((_la) & ~0x3f) == 0 and ((1 << _la) & 532552305206100064) != 0):
+                self.state = 196
                 self.expression()
 
 
@@ -1601,17 +1612,17 @@ class ArArduinoParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 197
+            self.state = 199
             self.expression()
-            self.state = 202
+            self.state = 204
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==44:
-                self.state = 198
+            while _la==46:
+                self.state = 200
                 self.match(ArArduinoParser.COMA)
-                self.state = 199
+                self.state = 201
                 self.expression()
-                self.state = 204
+                self.state = 206
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -1661,7 +1672,7 @@ class ArArduinoParser ( Parser ):
         self.enterRule(localctx, 36, self.RULE_expression)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 205
+            self.state = 207
             self.orExpr()
         except RecognitionException as re:
             localctx.exception = re
@@ -1719,17 +1730,17 @@ class ArArduinoParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 207
+            self.state = 209
             self.andExpr()
-            self.state = 212
+            self.state = 214
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==35:
-                self.state = 208
+            while _la==37:
+                self.state = 210
                 self.match(ArArduinoParser.OR)
-                self.state = 209
+                self.state = 211
                 self.andExpr()
-                self.state = 214
+                self.state = 216
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -1789,17 +1800,17 @@ class ArArduinoParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 215
+            self.state = 217
             self.bwOrExpr()
-            self.state = 220
+            self.state = 222
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==36:
-                self.state = 216
+            while _la==38:
+                self.state = 218
                 self.match(ArArduinoParser.AND)
-                self.state = 217
+                self.state = 219
                 self.bwOrExpr()
-                self.state = 222
+                self.state = 224
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -1859,17 +1870,17 @@ class ArArduinoParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 223
+            self.state = 225
             self.bwXorExpr()
-            self.state = 228
+            self.state = 230
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==45:
-                self.state = 224
+            while _la==47:
+                self.state = 226
                 self.match(ArArduinoParser.BW_OR)
-                self.state = 225
+                self.state = 227
                 self.bwXorExpr()
-                self.state = 230
+                self.state = 232
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -1929,17 +1940,17 @@ class ArArduinoParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 231
+            self.state = 233
             self.bwAndExpr()
-            self.state = 236
+            self.state = 238
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==47:
-                self.state = 232
+            while _la==49:
+                self.state = 234
                 self.match(ArArduinoParser.BW_XOR)
-                self.state = 233
+                self.state = 235
                 self.bwAndExpr()
-                self.state = 238
+                self.state = 240
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -1999,17 +2010,17 @@ class ArArduinoParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 239
+            self.state = 241
             self.relExpr()
-            self.state = 244
+            self.state = 246
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==46:
-                self.state = 240
+            while _la==48:
+                self.state = 242
                 self.match(ArArduinoParser.BW_AND)
-                self.state = 241
+                self.state = 243
                 self.relExpr()
-                self.state = 246
+                self.state = 248
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -2029,11 +2040,11 @@ class ArArduinoParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def addExpr(self, i:int=None):
+        def shiftExpr(self, i:int=None):
             if i is None:
-                return self.getTypedRuleContexts(ArArduinoParser.AddExprContext)
+                return self.getTypedRuleContexts(ArArduinoParser.ShiftExprContext)
             else:
-                return self.getTypedRuleContext(ArArduinoParser.AddExprContext,i)
+                return self.getTypedRuleContext(ArArduinoParser.ShiftExprContext,i)
 
 
         def relOp(self, i:int=None):
@@ -2070,17 +2081,17 @@ class ArArduinoParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 247
-            self.addExpr()
-            self.state = 253
+            self.state = 249
+            self.shiftExpr()
+            self.state = 255
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while (((_la) & ~0x3f) == 0 and ((1 << _la) & 33822867456) != 0):
-                self.state = 248
+            while (((_la) & ~0x3f) == 0 and ((1 << _la) & 135291469824) != 0):
+                self.state = 250
                 self.relOp()
-                self.state = 249
-                self.addExpr()
-                self.state = 255
+                self.state = 251
+                self.shiftExpr()
+                self.state = 257
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -2145,13 +2156,94 @@ class ArArduinoParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 256
+            self.state = 258
             _la = self._input.LA(1)
-            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 33822867456) != 0)):
+            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 135291469824) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
                 self.consume()
+        except RecognitionException as re:
+            localctx.exception = re
+            self._errHandler.reportError(self, re)
+            self._errHandler.recover(self, re)
+        finally:
+            self.exitRule()
+        return localctx
+
+
+    class ShiftExprContext(ParserRuleContext):
+        __slots__ = 'parser'
+
+        def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
+            super().__init__(parent, invokingState)
+            self.parser = parser
+
+        def addExpr(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(ArArduinoParser.AddExprContext)
+            else:
+                return self.getTypedRuleContext(ArArduinoParser.AddExprContext,i)
+
+
+        def SHL(self, i:int=None):
+            if i is None:
+                return self.getTokens(ArArduinoParser.SHL)
+            else:
+                return self.getToken(ArArduinoParser.SHL, i)
+
+        def SHR(self, i:int=None):
+            if i is None:
+                return self.getTokens(ArArduinoParser.SHR)
+            else:
+                return self.getToken(ArArduinoParser.SHR, i)
+
+        def getRuleIndex(self):
+            return ArArduinoParser.RULE_shiftExpr
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterShiftExpr" ):
+                listener.enterShiftExpr(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitShiftExpr" ):
+                listener.exitShiftExpr(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitShiftExpr" ):
+                return visitor.visitShiftExpr(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+
+
+    def shiftExpr(self):
+
+        localctx = ArArduinoParser.ShiftExprContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 52, self.RULE_shiftExpr)
+        self._la = 0 # Token type
+        try:
+            self.enterOuterAlt(localctx, 1)
+            self.state = 260
+            self.addExpr()
+            self.state = 265
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            while _la==29 or _la==30:
+                self.state = 261
+                _la = self._input.LA(1)
+                if not(_la==29 or _la==30):
+                    self._errHandler.recoverInline(self)
+                else:
+                    self._errHandler.reportMatch(self)
+                    self.consume()
+                self.state = 262
+                self.addExpr()
+                self.state = 267
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -2210,26 +2302,26 @@ class ArArduinoParser ( Parser ):
     def addExpr(self):
 
         localctx = ArArduinoParser.AddExprContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 52, self.RULE_addExpr)
+        self.enterRule(localctx, 54, self.RULE_addExpr)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 258
+            self.state = 268
             self.mulExpr()
-            self.state = 263
+            self.state = 273
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==20 or _la==21:
-                self.state = 259
+                self.state = 269
                 _la = self._input.LA(1)
                 if not(_la==20 or _la==21):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
                     self.consume()
-                self.state = 260
+                self.state = 270
                 self.mulExpr()
-                self.state = 265
+                self.state = 275
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -2291,26 +2383,26 @@ class ArArduinoParser ( Parser ):
     def mulExpr(self):
 
         localctx = ArArduinoParser.MulExprContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 54, self.RULE_mulExpr)
+        self.enterRule(localctx, 56, self.RULE_mulExpr)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 266
+            self.state = 276
             self.unaryExpr()
-            self.state = 271
+            self.state = 281
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==22 or _la==23:
-                self.state = 267
+                self.state = 277
                 _la = self._input.LA(1)
                 if not(_la==22 or _la==23):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
                     self.consume()
-                self.state = 268
+                self.state = 278
                 self.unaryExpr()
-                self.state = 273
+                self.state = 283
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -2370,27 +2462,27 @@ class ArArduinoParser ( Parser ):
     def unaryExpr(self):
 
         localctx = ArArduinoParser.UnaryExprContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 56, self.RULE_unaryExpr)
+        self.enterRule(localctx, 58, self.RULE_unaryExpr)
         self._la = 0 # Token type
         try:
-            self.state = 277
+            self.state = 287
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [21, 37, 48]:
+            if token in [21, 39, 50]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 274
+                self.state = 284
                 _la = self._input.LA(1)
-                if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 281612417761280) != 0)):
+                if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 1126449664753664) != 0)):
                     self._errHandler.recoverInline(self)
                 else:
                     self._errHandler.reportMatch(self)
                     self.consume()
-                self.state = 275
+                self.state = 285
                 self.unaryExpr()
                 pass
-            elif token in [5, 6, 38, 51, 52, 54, 55]:
+            elif token in [5, 6, 40, 53, 54, 56, 57, 58]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 276
+                self.state = 286
                 self.primary()
                 pass
             else:
@@ -2414,6 +2506,9 @@ class ArArduinoParser ( Parser ):
 
         def NUMBER(self):
             return self.getToken(ArArduinoParser.NUMBER, 0)
+
+        def BIN_NUMBER(self):
+            return self.getToken(ArArduinoParser.BIN_NUMBER, 0)
 
         def TRUE(self):
             return self.getToken(ArArduinoParser.TRUE, 0)
@@ -2467,50 +2562,55 @@ class ArArduinoParser ( Parser ):
     def primary(self):
 
         localctx = ArArduinoParser.PrimaryContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 58, self.RULE_primary)
+        self.enterRule(localctx, 60, self.RULE_primary)
         try:
-            self.state = 290
+            self.state = 301
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [54]:
+            if token in [57]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 279
+                self.state = 289
                 self.match(ArArduinoParser.NUMBER)
                 pass
-            elif token in [5]:
+            elif token in [56]:
                 self.enterOuterAlt(localctx, 2)
-                self.state = 280
+                self.state = 290
+                self.match(ArArduinoParser.BIN_NUMBER)
+                pass
+            elif token in [5]:
+                self.enterOuterAlt(localctx, 3)
+                self.state = 291
                 self.match(ArArduinoParser.TRUE)
                 pass
-            elif token in [52]:
-                self.enterOuterAlt(localctx, 3)
-                self.state = 281
+            elif token in [54]:
+                self.enterOuterAlt(localctx, 4)
+                self.state = 292
                 self.match(ArArduinoParser.CHAR)
                 pass
-            elif token in [51]:
-                self.enterOuterAlt(localctx, 4)
-                self.state = 282
+            elif token in [53]:
+                self.enterOuterAlt(localctx, 5)
+                self.state = 293
                 self.match(ArArduinoParser.STRING)
                 pass
             elif token in [6]:
-                self.enterOuterAlt(localctx, 5)
-                self.state = 283
+                self.enterOuterAlt(localctx, 6)
+                self.state = 294
                 self.match(ArArduinoParser.FALSE)
                 pass
-            elif token in [38]:
-                self.enterOuterAlt(localctx, 6)
-                self.state = 284
+            elif token in [40]:
+                self.enterOuterAlt(localctx, 7)
+                self.state = 295
                 self.match(ArArduinoParser.LPAREN)
-                self.state = 285
+                self.state = 296
                 self.expression()
-                self.state = 286
+                self.state = 297
                 self.match(ArArduinoParser.RPAREN)
                 pass
-            elif token in [55]:
-                self.enterOuterAlt(localctx, 7)
-                self.state = 288
+            elif token in [58]:
+                self.enterOuterAlt(localctx, 8)
+                self.state = 299
                 self.match(ArArduinoParser.ID)
-                self.state = 289
+                self.state = 300
                 self.primaryIdSuffix()
                 pass
             else:
@@ -2565,28 +2665,28 @@ class ArArduinoParser ( Parser ):
     def primaryIdSuffix(self):
 
         localctx = ArArduinoParser.PrimaryIdSuffixContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 60, self.RULE_primaryIdSuffix)
+        self.enterRule(localctx, 62, self.RULE_primaryIdSuffix)
         self._la = 0 # Token type
         try:
-            self.state = 298
+            self.state = 309
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [38]:
+            if token in [40]:
                 self.enterOuterAlt(localctx, 1)
-                self.state = 292
+                self.state = 303
                 self.match(ArArduinoParser.LPAREN)
-                self.state = 294
+                self.state = 305
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if (((_la) & ~0x3f) == 0 and ((1 << _la) & 61080482265170016) != 0):
-                    self.state = 293
+                if (((_la) & ~0x3f) == 0 and ((1 << _la) & 532552305206100064) != 0):
+                    self.state = 304
                     self.args()
 
 
-                self.state = 296
+                self.state = 307
                 self.match(ArArduinoParser.RPAREN)
                 pass
-            elif token in [20, 21, 22, 23, 29, 30, 31, 32, 33, 34, 35, 36, 39, 43, 44, 45, 46, 47]:
+            elif token in [20, 21, 22, 23, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 41, 45, 46, 47, 48, 49]:
                 self.enterOuterAlt(localctx, 2)
 
                 pass
@@ -2650,13 +2750,13 @@ class ArArduinoParser ( Parser ):
     def type_(self):
 
         localctx = ArArduinoParser.TypeContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 62, self.RULE_type)
+        self.enterRule(localctx, 64, self.RULE_type)
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 300
+            self.state = 311
             _la = self._input.LA(1)
-            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 1688849860281216) != 0)):
+            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 6755399441073024) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)

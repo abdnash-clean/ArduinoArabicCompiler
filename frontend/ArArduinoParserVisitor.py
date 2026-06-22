@@ -139,6 +139,11 @@ class ArArduinoParserVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by ArArduinoParser#shiftExpr.
+    def visitShiftExpr(self, ctx:ArArduinoParser.ShiftExprContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by ArArduinoParser#addExpr.
     def visitAddExpr(self, ctx:ArArduinoParser.AddExprContext):
         return self.visitChildren(ctx)
