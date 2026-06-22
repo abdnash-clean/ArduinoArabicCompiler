@@ -1,5 +1,6 @@
 # main.py (النسخة النهائية مع ميزة تنظيف وتسوية النصوص العربية)
 import sys
+from backend.optimizer import Optimizer
 from normlize import normalize_arabic_text 
 from antlr4 import *
 from frontend.ArArduinoLexer import ArArduinoLexer
@@ -59,5 +60,10 @@ def main():
         ast.accept(ir_generator)
         print("\n--- LLVM IR OUTPUT ---")
         print(ir_generator.get_ir())
+        llvm_ir = ir_generator.get_ir()
+        print("\n--- توليد لغة التجميع AVR ---")
+        optimizer = Optimizer(opt_level=2, size_level=1,verbose=True)
+        optimized_ir = optimizer.optimize(llvm_ir)
+        print(optimized_ir)
 if __name__ == '__main__':
     main()
