@@ -3,8 +3,9 @@ from frontend.ArArduinoParserVisitor import ArArduinoParserVisitor
 from frontend.ArArduinoParser import ArArduinoParser
 from ast_dir.nodes import *
 
+
 class ASTBuilderVisitor(ArArduinoParserVisitor):
-    # دالة مساعدة لنسخ رقم السطر والعمود الأصلي من ملف الكود إلى عقدة الـ AST
+    # دالة مساعدة لنسخ رقم السطر والعمود
     def set_metadata(self, node: ASTNode, ctx):
         if node and ctx and ctx.start:
             node.line = ctx.start.line
@@ -16,7 +17,7 @@ class ASTBuilderVisitor(ArArduinoParserVisitor):
         declarations = [self.visit(decl) for decl in ctx.declaration()]
         node = ProgramNode(imports=imports, declarations=declarations)
         return self.set_metadata(node, ctx)
-    
+
     def visitDeclaration(self, ctx: ArArduinoParser.DeclarationContext):
         if ctx.varDecl():
             return self.visit(ctx.varDecl())
@@ -35,12 +36,12 @@ class ASTBuilderVisitor(ArArduinoParserVisitor):
 
     def visitFuncBody(self, ctx: ArArduinoParser.FuncBodyContext):
         if ctx.SETUP():
-            name = ctx.SETUP().getText()  # 'إعداد'
+            name = ctx.SETUP().getText()
             params = []
             return_type = "فارغ"
             body = self.visit(ctx.block())
         elif ctx.LOOP():
-            name = ctx.LOOP().getText()   # 'تكرار'
+            name = ctx.LOOP().getText()
             params = []
             return_type = "فارغ"
             body = self.visit(ctx.block())
@@ -66,7 +67,6 @@ class ASTBuilderVisitor(ArArduinoParserVisitor):
             node = self.visit(stmt)
             if node:
                 statements.append(node)
-        # استخدام الاسم المفتاحية statements= لمنع بايثون من الخلط
         node = BlockNode(statements=statements)
         return self.set_metadata(node, ctx)
 
@@ -76,8 +76,8 @@ class ASTBuilderVisitor(ArArduinoParserVisitor):
         elif ctx.ifStat(): return self.visit(ctx.ifStat())
         elif ctx.whileStat(): return self.visit(ctx.whileStat())
         elif ctx.returnStat(): return self.visit(ctx.returnStat())
-        elif ctx.breakStat(): return self.visit(ctx.breakStat())     
-        elif ctx.continueStat(): return self.visit(ctx.continueStat())    
+        elif ctx.breakStat(): return self.visit(ctx.breakStat())
+        elif ctx.continueStat(): return self.visit(ctx.continueStat())
         elif ctx.block(): return self.visit(ctx.block())
         return None
 
@@ -85,7 +85,7 @@ class ASTBuilderVisitor(ArArduinoParserVisitor):
         name = ctx.ID().getText()
         suffix = ctx.idSuffix()
         node = None
-        
+
         if suffix.ASSIGN():
             val = self.visit(suffix.expression())
             node = AssignNode(name=name, op='=', value=val)
@@ -106,7 +106,7 @@ class ASTBuilderVisitor(ArArduinoParserVisitor):
         elif suffix.LPAREN():
             args = self.visit(suffix.args()) if suffix.args() else []
             node = FuncCallNode(name=name, args=args)
-            
+
         return self.set_metadata(node, ctx)
 
     def visitArgs(self, ctx: ArArduinoParser.ArgsContext):
@@ -169,10 +169,20 @@ class ASTBuilderVisitor(ArArduinoParserVisitor):
         return self.set_metadata(left, ctx)
 
     def visitRelExpr(self, ctx: ArArduinoParser.RelExprContext):
+        left = self.visit(ctx.shiftExpr(0))
+        for i in range(1, len(ctx.shiftExpr())):
+            right = self.visit(ctx.shiftExpr(i))
+            op = ctx.relOp(i-1).getText()
+            left = BinOpNode(left=left, op=op, right=right)
+        return self.set_metadata(left, ctx)
+
+    # جديد: معالجة عوامل الإزاحة << >>
+    def visitShiftExpr(self, ctx: ArArduinoParser.ShiftExprContext):
         left = self.visit(ctx.addExpr(0))
         for i in range(1, len(ctx.addExpr())):
             right = self.visit(ctx.addExpr(i))
-            op = ctx.relOp(i-1).getText()
+            op_ctx = ctx.getChild(2 * i - 1)
+            op = op_ctx.getText()
             left = BinOpNode(left=left, op=op, right=right)
         return self.set_metadata(left, ctx)
 
@@ -207,6 +217,12 @@ class ASTBuilderVisitor(ArArduinoParserVisitor):
         if ctx.NUMBER():
             val = float(ctx.NUMBER().getText())
             node = NumberNode(value=val)
+        elif ctx.BIN_NUMBER():
+            # رقم ثنائي مثل ث11110111 (نحذف الحرف "ث" ونحوّل الأرقام العربية)
+            raw = ctx.BIN_NUMBER().getText()[1:]
+            raw = raw.translate(str.maketrans('٠١', '01'))
+            val = float(int(raw, 2))
+            node = NumberNode(value=val)
         elif ctx.TRUE():
             node = BoolNode(value=True)
         elif ctx.FALSE():
@@ -228,7 +244,7 @@ class ASTBuilderVisitor(ArArduinoParserVisitor):
             else:
                 node = IdNode(name=name)
         return self.set_metadata(node, ctx)
-    
+
     def visitImportStmt(self, ctx: ArArduinoParser.ImportStmtContext):
         lib_name = ctx.STRING().getText()[1:-1]
         node = ImportNode(library_name=lib_name)

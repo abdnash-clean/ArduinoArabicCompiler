@@ -242,6 +242,15 @@ class ArArduinoParserListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by ArArduinoParser#shiftExpr.
+    def enterShiftExpr(self, ctx:ArArduinoParser.ShiftExprContext):
+        pass
+
+    # Exit a parse tree produced by ArArduinoParser#shiftExpr.
+    def exitShiftExpr(self, ctx:ArArduinoParser.ShiftExprContext):
+        pass
+
+
     # Enter a parse tree produced by ArArduinoParser#addExpr.
     def enterAddExpr(self, ctx:ArArduinoParser.AddExprContext):
         pass
