@@ -64,6 +64,7 @@ def main():
         print("\n--- توليد لغة التجميع AVR ---")
         optimizer = Optimizer(opt_level=2, size_level=1,verbose=True)
         optimized_ir = optimizer.optimize(llvm_ir)
-        print(optimized_ir)
+        optimizer.write_object(optimized_ir, "output.o")
+        print(optimizer.emit_assembly(optimized_ir))
 if __name__ == '__main__':
     main()
