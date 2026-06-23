@@ -71,14 +71,14 @@ class LLVMIRGenerator(ASTVisitor):
         # Core Arduino API (mapped from the Arabic names in builtins_registry)
         self.builtins['وضع_الطرف']    = declare("c_pinMode",      self.void, [self.i32, self.i32])  # pinMode
         self.builtins['اكتب_رقمي']    = declare("c_digitalWrite", self.void, [self.i32, self.i32])  # digitalWrite
-        self.builtins['اقرا_رقمي']    = declare("c_digitalRead",  self.i32,  [self.i32])            # digitalRead
+        self.builtins['اقرأ_رقمي']    = declare("c_digitalRead",  self.i32,  [self.i32])            # digitalRead
         self.builtins['اكتب_تناظري']  = declare("c_analogWrite",  self.void, [self.i32, self.i32])  # analogWrite
-        self.builtins['اقرا_تناظري']  = declare("c_analogRead",   self.i32,  [self.i32])            # analogRead
+        self.builtins['اقرأ_تناظري']  = declare("c_analogRead",   self.i32,  [self.i32])            # analogRead
         self.builtins['انتظر']        = declare("c_delay",        self.void, [self.i32])            # delay
         self.builtins['الزمن_الحالي'] = declare("c_millis",       self.i32,  [])                    # millis
 
         # Serial library (سيريال) — declared up-front; harmless if unused
-        self.builtins['سيريال_ابدا'] = declare("c_serialBegin", self.void, [self.i32])             # Serial.begin
+        self.builtins['سيريال_ابدأ'] = declare("c_serialBegin", self.void, [self.i32])             # Serial.begin
         # print accepts numbers or strings -> variadic to stay flexible
         self.builtins['سيريال_اطبع'] = declare("c_serialPrint", self.void, [], var_arg=True)        # Serial.print
 
@@ -86,6 +86,9 @@ class LLVMIRGenerator(ASTVisitor):
         self.c_pinMode = self.builtins['وضع_الطرف']
         self.c_digitalWrite = self.builtins['اكتب_رقمي']
         self.c_delay = self.builtins['انتظر']
+
+        panic_type = ir.FunctionType(self.void, [])
+        self.panic_func = ir.Function(self.module, panic_type, name="panic_div_zero")
 
     def _declare_registers(self):
         """Map each Arabic register name to a volatile 8-bit pointer at a fixed address."""
@@ -333,6 +336,23 @@ class LLVMIRGenerator(ASTVisitor):
 
         self.builder.position_at_end(end_bb)
 
+    def emit_runtime_trap(self, is_danger_i1):
+        """Divide-by-zero guard. If is_danger_i1 is true, jump to a
+        panic block that calls panic_div_zero() and halts; otherwise fall through
+        to a safe 'math_block'. Leaves the builder positioned in the safe block."""
+        current_func = self.builder.function
+        panic_bb = current_func.append_basic_block("panic_block")
+        continue_bb = current_func.append_basic_block("math_block")
+        # Conditional jump: danger -> panic, else -> safe path.
+        self.builder.cbranch(is_danger_i1, panic_bb, continue_bb)
+        # Panic block: call the handler (defined in arduino_glue.cpp), then mark
+        # the path 'unreachable' so the optimizer can reason about / delete it.
+        self.builder.position_at_end(panic_bb)
+        self.builder.call(self.panic_func, [])
+        self.builder.unreachable()
+        # Move the cursor back to the safe block to resume normal codegen.
+        self.builder.position_at_end(continue_bb)
+
     def visit_BinOpNode(self, node: BinOpNode):
         left = node.left.accept(self)
         right = node.right.accept(self)
@@ -360,7 +380,17 @@ class LLVMIRGenerator(ASTVisitor):
         elif node.op == '*':
             return self.builder.fmul(left, right) if is_float else self.builder.mul(left, right)
         elif node.op == '/':
-            return self.builder.fdiv(left, right) if is_float else self.builder.sdiv(left, right)
+            if is_float:
+                # Float division by zero yields ±inf/NaN, not a hardware fault,
+                # so no trap is needed for floating-point division.
+                return self.builder.fdiv(left, right)
+            # Integer division: plant the divide-by-zero trap before sdiv.
+            zero_val = ir.Constant(self.i32, 0)
+            is_zero = self.builder.icmp_signed('==', right, zero_val, name="is_zero_trap")
+            self.emit_runtime_trap(is_zero)
+            # The cursor is now safely inside 'math_block'; divide is unreachable
+            # unless the denominator was proven non-zero.
+            return self.builder.sdiv(left, right, name="divtmp")
         elif node.op == '==':
             return self.builder.fcmp_ordered('==', left, right) if is_float else self.builder.icmp_signed('==', left, right)
         elif node.op == '!=':

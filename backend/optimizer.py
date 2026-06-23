@@ -16,6 +16,7 @@
 #      بدونها تحصل على: "Unable to find target for this triple (no targets are registered)".
 # =============================================================================
 
+import re
 import warnings
 import llvmlite.binding as llvm
 
@@ -24,6 +25,69 @@ AVR_TRIPLE = "avr-atmel-none"
 AVR_CPU = "atmega328p"
 # مخطط بيانات AVR: المؤشرات 16-بت، المحاذاة 8-بت (بايت واحد)
 AVR_DATALAYOUT = "e-P1-p:16:8-i8:8-i16:8-i32:8-i64:8-f32:8-f64:8-n8-a:8"
+
+
+# =============================================================================
+#  إصلاح خاص بخلفية AVR التجريبية في LLVM/llvmlite
+# -----------------------------------------------------------------------------
+#  خلفية AVR تنهار بـ: Assertion `isUIntN(BitWidth, val)` عند توليد التعليمة:
+#        icmp ult iW X, C     حيث C ثابت كبير (بت الإشارة = 1، أي يُطبع سالباً)
+#  وهذا النمط يولّده تمرير InstCombine عند دمج فحوص المدى
+#  (مثل: X == 0 || X >= 255  ⟶  (X-255) <u (-254)).
+#
+#  الحل المؤكَّد (مكافئ رياضياً وتقبله الخلفية): تحويل المقارنة غير الإشارية
+#  إلى إشارية بقلب بت الإشارة على الطرفين:
+#        icmp ult iW X, C  ≡  icmp slt iW (X xor SIGNBIT), (C xor SIGNBIT)
+#  حيث SIGNBIT = 2^(W-1).  المقارنات الإشارية والثوابت الموجبة الكبيرة تعمل
+#  بلا مشاكل على AVR (تم التحقق عبر مجموعة اختبارات العزل).
+# =============================================================================
+
+# %dst = icmp [samesign ]ult iW %lhs, CONST   [بقية السطر اختيارية]
+_ICMP_ULT_RE = re.compile(
+    r"^(?P<indent>[ \t]*)"
+    r"(?P<dst>%[A-Za-z0-9_.$-]+)\s*=\s*"
+    r"icmp\s+(?:samesign\s+)?ult\s+"
+    r"i(?P<bits>\d+)\s+"
+    r"(?P<lhs>%[A-Za-z0-9_.$-]+)\s*,\s*"
+    r"(?P<rhs>-?\d+)"
+    r"(?P<tail>.*)$"
+)
+
+
+def _avr_fix_unsigned_icmp(text):
+    """يحوّل كل 'icmp ult iW X, C' (حيث C ثابت كبير، بت الإشارة=1) إلى مقارنة
+    إشارية مكافئة تقبلها خلفية AVR:  icmp slt iW (X xor SIGNBIT), (C xor SIGNBIT).
+
+    يعيد (النص_المعدّل، عدد_التحويلات). الثوابت الموجبة الصغيرة تُترك كما هي
+    لأن الخلفية تتعامل معها بلا مشاكل، ولأنواع < 8 بت لا نتدخّل.
+    """
+    out = []
+    count = 0
+    for line in text.split("\n"):
+        m = _ICMP_ULT_RE.match(line)
+        if m is None:
+            out.append(line)
+            continue
+        bits = int(m.group("bits"))
+        rhs = int(m.group("rhs"))
+        mask = (1 << bits) - 1
+        uval = rhs & mask
+        # نُصلح فقط الأنواع >= 8 بت وعندما يكون بت الإشارة مضبوطاً
+        if bits < 8 or not (uval >> (bits - 1)):
+            out.append(line)
+            continue
+        signbit = 1 << (bits - 1)
+        biased_u = uval ^ signbit
+        biased_s = biased_u if biased_u < signbit else biased_u - (1 << bits)
+        signbit_s = -signbit  # أصغر قيمة موقّعة لهذا العرض (INT_MIN)
+        ty = "i%d" % bits
+        bias = m.group("dst") + ".avrbias"
+        out.append("%s%s = xor %s %s, %d" % (
+            m.group("indent"), bias, ty, m.group("lhs"), signbit_s))
+        out.append("%s%s = icmp slt %s %s, %d%s" % (
+            m.group("indent"), m.group("dst"), ty, bias, biased_s, m.group("tail")))
+        count += 1
+    return "\n".join(out), count
 
 
 class Optimizer:
@@ -122,8 +186,20 @@ class Optimizer:
         except AttributeError:
             self._run_legacy_pass_manager(mod)
 
-        # 4) تحقق بعدي ثم إرجاع الكود المحسّن
+        # 4) تحقق بعدي
         mod.verify()
+
+        # 5) إصلاح خاص بخلفية AVR: تحويل 'icmp ult' ذات الثابت الكبير إلى
+        #    مقارنة إشارية مكافئة (انظر التعليق أعلى الملف). هذا يمنع انهيار
+        #    الخلفية بـ Assertion isUIntN مع الحفاظ على كامل التحسين.
+        fixed_text, n_fixed = _avr_fix_unsigned_icmp(str(mod))
+        if n_fixed:
+            if self.verbose:
+                print(f"[AVR] حُوّلت {n_fixed} مقارنة 'ult' بثابت كبير إلى مقارنة إشارية.")
+            mod = llvm.parse_assembly(fixed_text)
+            mod.verify()
+
+        # 6) إرجاع الكود المحسّن (والمُصلَح)
         return str(mod)
 
     # -- مدير التمرير الجديد (New Pass Manager) — المسار الافتراضي -------
