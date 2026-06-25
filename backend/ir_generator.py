@@ -273,7 +273,7 @@ class LLVMIRGenerator(ASTVisitor):
         # Special-case: Serial.print dispatches to a typed overload on AVR.
         if node.name == 'سيريال_اطبع':
             if not node.args:
-                raise Exception("خطأ هندسي: استدعاء 'سيريال_اطبع' يحتاج وسيطاً واحداً على الأقل.")
+                raise Exception("خطأ هندسي: استدعاء \"سيريال_اطبع\" يحتاج إلى وسيط واحد على الأقل.")
             arg_val = node.args[0].accept(self)
             if arg_val.type == self.f64:
                 func = self.builtins['سيريال_اطبع_عشري']
@@ -289,7 +289,7 @@ class LLVMIRGenerator(ASTVisitor):
         # Resolve target: built-in first, then user-defined.
         func = self.builtins.get(node.name) or self.functions.get(node.name)
         if func is None:
-            raise Exception(f"خطأ هندسي: استدعاء لدالة غير معرفة '{node.name}'.")
+            raise Exception(f"خطأ هندسي: استدعاء دالة غير معرفة \"{node.name}\".")
 
         # Cast each argument to the declared parameter type.
         fixed_params = list(func.function_type.args)
@@ -420,7 +420,7 @@ class LLVMIRGenerator(ASTVisitor):
         elif node.op == '>=':
             return self.builder.fcmp_ordered('>=', left, right) if is_float else self.builder.icmp_signed('>=', left, right)
 
-        raise Exception(f"خطأ هندسي: عملية غير مدعومة '{node.op}'.")
+        raise Exception(f"خطأ هندسي: العملية \"{node.op}\" غير مدعومة.")
 
     def visit_UnaryOpNode(self, node: UnaryOpNode):
         val = node.expr.accept(self)
@@ -441,20 +441,20 @@ class LLVMIRGenerator(ASTVisitor):
         if op == '~':
             return self.builder.not_(val, name="bnot")
 
-        raise Exception(f"خطأ هندسي: عملية أحادية غير مدعومة '{op}'.")
+        raise Exception(f"خطأ هندسي: العملية الأحادية \"{op}\" غير مدعومة.")
 
     def visit_BoolNode(self, node: BoolNode):
         return ir.Constant(self.i1, 1 if node.value else 0)
 
     def visit_ContinueNode(self, node: ContinueNode):
         if not self.loop_stack:
-            raise Exception("خطأ نحوي: تم استخدام أمر 'استمر' خارج حلقة تكرار")
+            raise Exception("خطأ نحوي: تم استخدام الأمر \"استمر\" خارج حلقة التكرار.")
         cond_bb, _ = self.loop_stack[-1]
         self.builder.branch(cond_bb)
 
     def visit_BreakNode(self, node: BreakNode):
         if not self.loop_stack:
-            raise Exception("خطأ نحوي: تم استخدام أمر 'اقطع' خارج حلقة تكرار")
+            raise Exception("خطأ نحوي: تم استخدام الأمر \"اقطع\" خارج حلقة التكرار.")
         _, end_bb = self.loop_stack[-1]
         self.builder.branch(end_bb)
 

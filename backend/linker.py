@@ -167,8 +167,8 @@ def _run(cmd: list, check: bool = True) -> subprocess.CompletedProcess:
     except subprocess.CalledProcessError as e:
         raise LinkError(
             f"فشل الأمر: {' '.join(cmd)}\n"
-            f"stdout:\n{e.stdout}\n"
-            f"stderr:\n{e.stderr}"
+            f"المخرجات القياسية:\n{e.stdout}\n"
+            f"المخرجات الخطأ:\n{e.stderr}"
         ) from e
 
 

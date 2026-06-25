@@ -105,7 +105,7 @@ def cmd_monitor(args):
     try:
         ser = serial.Serial(port, baud, timeout=0.1)
     except serial.SerialException as e:
-        print(f"SERIAL_ERROR: {e}", file=sys.stderr, flush=True)
+        print(f"خطأ السيريال: {e}", file=sys.stderr, flush=True)
         sys.exit(1)
 
     # إعادة ضبط لوحة Uno (نبضة DTR) لالتقاط مخرجات اعداد()/setup():
@@ -123,7 +123,7 @@ def cmd_monitor(args):
             try:
                 data = ser.read(256)
             except serial.SerialException as e:
-                print(f"SERIAL_ERROR: {e}", file=sys.stderr, flush=True)
+                print(f"خطأ السيريال: {e}", file=sys.stderr, flush=True)
                 stop.set()
                 break
             if data:

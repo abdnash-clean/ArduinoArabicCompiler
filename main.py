@@ -38,9 +38,9 @@ def main():
     builder = ASTBuilderVisitor()
     ast = builder.visit(parse_tree)
 
-    # 5. تشغيل التحليل الدلالي وفحص توافق الأنواع (Type Checking)
+    # 5. تشغيل التحليل الدلالي وفحص توافق الأنواع
     print("\n" + "=" * 60)
-    print("--- جاري التحليل الدلالي وفحص توافق الأنواع (Type Checking) ---")
+    print("--- جاري التحليل الدلالي وفحص توافق الأنواع ---")
     print("=" * 60)
     
     analyzer = SemanticAnalyzerVisitor()
