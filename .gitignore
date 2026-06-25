@@ -6,6 +6,8 @@ env/
 # ملفات الكاش الخاصة ببايثون
 __pycache__/
 *.pyc
+backend/tests/__init__.py
+tools/arduino-cli/
 
 # ملفات جافا المؤقتة التي نتجت عن تشغيل grun يدوياً
 *.class
@@ -19,3 +21,4 @@ frontend/.antlr/
 *.pdf
 test_ai_nodes.py
 test.txt
+

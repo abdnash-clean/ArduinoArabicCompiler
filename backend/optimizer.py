@@ -8,41 +8,29 @@
 #  الهدف: AVR / ATmega328P (Arduino Uno) — معالج 8-بت محدود الفلاش.
 #  llvmlite 0.47.0
 #
-#  ملاحظة مهمة جداً حول تهيئة الأهداف (تغيّر في 0.47):
-#    - الدالة initialize() (تهيئة الهدف الأصلي) أصبحت مهملة (deprecated)،
-#      والتهيئة التلقائية تشملها — لكنها تشمل الهدف الأصلي (native) فقط.
-#    - أهداف التصريف المتقاطع مثل AVR ما زالت تتطلب initialize_all_targets()
-#      صراحةً (وهي ليست مهملة). لهذا نستدعيها قبل from_triple("avr-...").
-#      بدونها تحصل على: "Unable to find target for this triple (no targets are registered)".
+#  ملاحظة: إعداد آلة الهدف و توليد التجميع / ملف الكائن انتقلا إلى:
+#    - backend/avr_target.py
+#    - backend/codegen.py
 # =============================================================================
 
 import re
-import warnings
 import llvmlite.binding as llvm
 
-# عنوان الهدف ومخطط البيانات الخاص بـ AVR
-AVR_TRIPLE = "avr-atmel-none"
-AVR_CPU = "atmega328p"
-# مخطط بيانات AVR: المؤشرات 16-بت، المحاذاة 8-بت (بايت واحد)
-AVR_DATALAYOUT = "e-P1-p:16:8-i8:8-i16:8-i32:8-i64:8-f32:8-f64:8-n8-a:8"
+from backend.avr_target import (
+    make_avr_target_machine,
+    make_host_target_machine,
+    apply_avr_target_info,
+)
 
 
 # =============================================================================
 #  إصلاح خاص بخلفية AVR التجريبية في LLVM/llvmlite
 # -----------------------------------------------------------------------------
 #  خلفية AVR تنهار بـ: Assertion `isUIntN(BitWidth, val)` عند توليد التعليمة:
-#        icmp ult iW X, C     حيث C ثابت كبير (بت الإشارة = 1، أي يُطبع سالباً)
-#  وهذا النمط يولّده تمرير InstCombine عند دمج فحوص المدى
-#  (مثل: X == 0 || X >= 255  ⟶  (X-255) <u (-254)).
-#
-#  الحل المؤكَّد (مكافئ رياضياً وتقبله الخلفية): تحويل المقارنة غير الإشارية
-#  إلى إشارية بقلب بت الإشارة على الطرفين:
-#        icmp ult iW X, C  ≡  icmp slt iW (X xor SIGNBIT), (C xor SIGNBIT)
-#  حيث SIGNBIT = 2^(W-1).  المقارنات الإشارية والثوابت الموجبة الكبيرة تعمل
-#  بلا مشاكل على AVR (تم التحقق عبر مجموعة اختبارات العزل).
+#        icmp ult iW X, C     حيث C ثابت كبير (بت الإشارة = 1)
+#  الحل: تحويل المقارنة غير الإشارية إلى إشارية بقلب بت الإشارة على الطرفين.
 # =============================================================================
 
-# %dst = icmp [samesign ]ult iW %lhs, CONST   [بقية السطر اختيارية]
 _ICMP_ULT_RE = re.compile(
     r"^(?P<indent>[ \t]*)"
     r"(?P<dst>%[A-Za-z0-9_.$-]+)\s*=\s*"
@@ -55,12 +43,7 @@ _ICMP_ULT_RE = re.compile(
 
 
 def _avr_fix_unsigned_icmp(text):
-    """يحوّل كل 'icmp ult iW X, C' (حيث C ثابت كبير، بت الإشارة=1) إلى مقارنة
-    إشارية مكافئة تقبلها خلفية AVR:  icmp slt iW (X xor SIGNBIT), (C xor SIGNBIT).
-
-    يعيد (النص_المعدّل، عدد_التحويلات). الثوابت الموجبة الصغيرة تُترك كما هي
-    لأن الخلفية تتعامل معها بلا مشاكل، ولأنواع < 8 بت لا نتدخّل.
-    """
+    """يحوّل 'icmp ult iW X, C' ذات الثابت الكبير إلى مقارنة إشارية مكافئة."""
     out = []
     count = 0
     for line in text.split("\n"):
@@ -72,14 +55,13 @@ def _avr_fix_unsigned_icmp(text):
         rhs = int(m.group("rhs"))
         mask = (1 << bits) - 1
         uval = rhs & mask
-        # نُصلح فقط الأنواع >= 8 بت وعندما يكون بت الإشارة مضبوطاً
         if bits < 8 or not (uval >> (bits - 1)):
             out.append(line)
             continue
         signbit = 1 << (bits - 1)
         biased_u = uval ^ signbit
         biased_s = biased_u if biased_u < signbit else biased_u - (1 << bits)
-        signbit_s = -signbit  # أصغر قيمة موقّعة لهذا العرض (INT_MIN)
+        signbit_s = -signbit
         ty = "i%d" % bits
         bias = m.group("dst") + ".avrbias"
         out.append("%s%s = xor %s %s, %d" % (
@@ -95,92 +77,26 @@ class Optimizer:
     محسّن الكود الوسيط.
 
     opt_level  : مستوى تحسين الأداء (0-3).
-    size_level : مستوى تقليل الحجم (0,1,2). مهم جداً لـ AVR محدود الفلاش:
-                 1 ≈ -Os   و   2 ≈ -Oz
+    size_level : مستوى تقليل الحجم (0,1,2). مهم جداً لـ AVR محدود الفلاش.
 
     الموصى به للمتحكمات: opt_level=2, size_level=1  (أي -Os).
     """
-
-    # تُسجّل أهداف LLVM مرة واحدة فقط لكل العملية
-    _targets_initialized = False
-
-    @classmethod
-    def _ensure_targets_initialized(cls):
-        """تُسجّل كل خلفيات الأهداف (بما فيها AVR) مرة واحدة.
-
-        في llvmlite 0.47 التهيئة التلقائية تشمل الهدف الأصلي (native) فقط.
-        أهداف التصريف المتقاطع مثل AVR تحتاج initialize_all_targets() صراحةً.
-        نتجنّب initialize() الأصلية (المهملة) ونكتفي بتسجيل كل الأهداف.
-        """
-        if cls._targets_initialized:
-            return
-        # إن كان AVR مسجّلاً أصلاً (مثلاً بسبب تهيئة سابقة) فلا حاجة لشيء
-        try:
-            llvm.Target.from_triple(AVR_TRIPLE)
-            cls._targets_initialized = True
-            return
-        except RuntimeError:
-            pass
-        # تسجيل كل الأهداف + طابعات التجميع (مطلوبة لـ emit_object/emit_assembly)
-        # نكتم أي تحذير إهمال احتياطيّاً (هذه الدوال غير مهملة لكن للأمان)
-        for fn_name in ("initialize_all_targets", "initialize_all_asmprinters"):
-            fn = getattr(llvm, fn_name, None)
-            if fn is None:
-                continue
-            try:
-                with warnings.catch_warnings():
-                    warnings.simplefilter("ignore")
-                    fn()
-            except Exception:
-                pass
-        cls._targets_initialized = True
 
     def __init__(self, opt_level: int = 2, size_level: int = 1, verbose: bool = False):
         self.opt_level = opt_level
         self.size_level = size_level
         self.verbose = verbose
-        # تسجيل الأهداف (مطلوب لـ AVR — هدف غير أصلي)
-        self._ensure_targets_initialized()
 
-    # -- آلة هدف AVR (قد لا تكون خلفية AVR مضمّنة في llvmlite) --------------
-    def _make_avr_target_machine(self):
-        self._ensure_targets_initialized()
-        try:
-            target = llvm.Target.from_triple(AVR_TRIPLE)
-            return target.create_target_machine(
-                cpu=AVR_CPU,
-                features="",
-                opt=self.opt_level,
-                reloc="static",     # المتحكمات لا تستخدم كوداً مستقل الموقع
-                codemodel="small",
-            )
-        except RuntimeError as e:
-            if self.verbose:
-                print(f"[تحذير] خلفية AVR غير متوفرة في llvmlite: {e}")
-                print("        سيتم تنفيذ التحسينات المستقلة عن الهدف فقط.")
-            return None
-
-    # -- آلة هدف احتياطية (هدف جهازك) — تكفي لتشغيل التحسينات -----
-    def _make_host_target_machine(self):
-        self._ensure_targets_initialized()
-        # مدير التمرير الجديد يتطلب آلة هدف؛ والتحسينات مستقلة عن الهدف غالباً
-        target = llvm.Target.from_triple(llvm.get_process_triple())
-        return target.create_target_machine()
-
-    # -- الدالة الرئيسية: تحسين الكود الوسيط ------------------------------
+    # -- الدالة الرئيسية: تحسين الكود الوسيط -----------------------------
     def optimize(self, llvm_ir: str) -> str:
-        # 1) تحليل + تحقق قبلي (يكشف أخطاء مولّد الكود)
+        # 1) تحليل + تحقق قبلي
         mod = llvm.parse_assembly(llvm_ir)
         mod.verify()
 
-        # 2) ضبط معلومات الهدف (تساعد المحسّن على أحجام ومحاذاة صحيحة)
-        try:
-            mod.triple = AVR_TRIPLE
-            mod.data_layout = AVR_DATALAYOUT
-        except Exception:
-            pass
+        # 2) ضبط معلومات الهدف
+        apply_avr_target_info(mod)
 
-        # 3) تشغيل التحسين: نجرّب مدير التمرير الجديد، وإن غاب نسقط للقديم
+        # 3) تشغيل التحسين
         try:
             self._run_new_pass_manager(mod)
         except AttributeError:
@@ -189,9 +105,7 @@ class Optimizer:
         # 4) تحقق بعدي
         mod.verify()
 
-        # 5) إصلاح خاص بخلفية AVR: تحويل 'icmp ult' ذات الثابت الكبير إلى
-        #    مقارنة إشارية مكافئة (انظر التعليق أعلى الملف). هذا يمنع انهيار
-        #    الخلفية بـ Assertion isUIntN مع الحفاظ على كامل التحسين.
+        # 5) إصلاح خاص بخلفية AVR
         fixed_text, n_fixed = _avr_fix_unsigned_icmp(str(mod))
         if n_fixed:
             if self.verbose:
@@ -199,18 +113,17 @@ class Optimizer:
             mod = llvm.parse_assembly(fixed_text)
             mod.verify()
 
-        # 6) إرجاع الكود المحسّن (والمُصلَح)
+        # 6) إرجاع الكود المحسّن
         return str(mod)
 
-    # -- مدير التمرير الجديد (New Pass Manager) — المسار الافتراضي -------
+    # -- مدير التمرير الجديد (New Pass Manager) ---------------------------
     def _run_new_pass_manager(self, mod):
-        tm = self._make_avr_target_machine() or self._make_host_target_machine()
+        tm = make_avr_target_machine(self.opt_level) or make_host_target_machine()
 
         pto = llvm.create_pipeline_tuning_options(
             speed_level=self.opt_level,
             size_level=self.size_level,
         )
-        # لا فائدة من المتجهات/فكّ الحلقات على معالج 8-بت محدود الفلاش
         for attr, val in (
             ("loop_vectorization", False),
             ("slp_vectorization", False),
@@ -226,7 +139,7 @@ class Optimizer:
         mpm = pb.getModulePassManager()
         mpm.run(mod, pb)
 
-    # -- مدير التمرير القديم (Legacy) — سقوط احتياطي فقط ----------------
+    # -- مدير التمرير القديم (Legacy) -----------------------------------
     def _run_legacy_pass_manager(self, mod):
         pmb = llvm.create_pass_manager_builder()
         pmb.opt_level = self.opt_level
@@ -243,39 +156,11 @@ class Optimizer:
                 pass
 
         pm = llvm.create_module_pass_manager()
-        tm = self._make_avr_target_machine()
+        tm = make_avr_target_machine(self.opt_level)
         if tm is not None:
             tm.add_analysis_passes(pm)
         pmb.populate(pm)
         pm.run(mod)
-
-    # -- جسر إلى المرحلة الخلفية: توليد التجميع -----------------------------
-    def emit_assembly(self, llvm_ir: str) -> str:
-        """يولّد لغة تجميع AVR — فقط إن كانت خلفية AVR متوفرة في llvmlite."""
-        tm = self._make_avr_target_machine()
-        if tm is None:
-            raise RuntimeError(
-                "لا يمكن توليد التجميع: خلفية AVR غير متوفرة في هذه النسخة من llvmlite. "
-                "استخدم llc/clang أو avr-gcc على الكود المحسّن بدلاً من ذلك."
-            )
-        mod = llvm.parse_assembly(self.optimize(llvm_ir))
-        return tm.emit_assembly(mod)
-
-    def emit_object(self, llvm_ir: str) -> bytes:
-        """يولّد ملف كائن AVR (.o) بعد التحسين — جاهزاً للربط (linking).
-        يتطلب توفّر خلفية AVR في llvmlite."""
-        tm = self._make_avr_target_machine()
-        if tm is None:
-            raise RuntimeError(
-                "لا يمكن توليد ملف الكائن: خلفية AVR غير متوفرة في هذه النسخة من llvmlite."
-            )
-        mod = llvm.parse_assembly(self.optimize(llvm_ir))
-        return tm.emit_object(mod)
-
-    def write_object(self, llvm_ir: str, out_path: str) -> None:
-        """يكتب ملف الكائن (.o) إلى القرص مباشرةً."""
-        with open(out_path, "wb") as fh:
-            fh.write(self.emit_object(llvm_ir))
 
 
 # تشغيل مستقل: python3 -m backend.optimizer input.ll [opt_level] [size_level] > output.ll

@@ -72,7 +72,9 @@ class LLVMIRGenerator(ASTVisitor):
         self.builtins['وضع_الطرف']    = declare("c_pinMode",      self.void, [self.i32, self.i32])  # pinMode
         self.builtins['اكتب_رقمي']    = declare("c_digitalWrite", self.void, [self.i32, self.i32])  # digitalWrite
         self.builtins['اقرا_رقمي']    = declare("c_digitalRead",  self.i32,  [self.i32])            # digitalRead
+        self.builtins['اقرا_رقمي']    = declare("c_digitalRead",  self.i32,  [self.i32])            # digitalRead
         self.builtins['اكتب_تناظري']  = declare("c_analogWrite",  self.void, [self.i32, self.i32])  # analogWrite
+        self.builtins['اقرا_تناظري']  = declare("c_analogRead",   self.i32,  [self.i32])            # analogRead
         self.builtins['اقرا_تناظري']  = declare("c_analogRead",   self.i32,  [self.i32])            # analogRead
         self.builtins['انتظر']        = declare("c_delay",        self.void, [self.i32])            # delay
         self.builtins['الزمن_الحالي'] = declare("c_millis",       self.i32,  [])                    # millis
@@ -268,6 +270,20 @@ class LLVMIRGenerator(ASTVisitor):
                 break
 
     def visit_FuncCallNode(self, node: FuncCallNode):
+        # Special-case: Serial.print dispatches to a typed overload on AVR.
+        if node.name == 'سيريال_اطبع':
+            if not node.args:
+                raise Exception("خطأ هندسي: استدعاء 'سيريال_اطبع' يحتاج وسيطاً واحداً على الأقل.")
+            arg_val = node.args[0].accept(self)
+            if arg_val.type == self.f64:
+                func = self.builtins['سيريال_اطبع_عشري']
+            elif arg_val.type == self.i8_ptr:
+                func = self.builtins['سيريال_اطبع_نص']
+            else:
+                func = self.builtins['سيريال_اطبع_صحيح']
+                arg_val = self._cast_value(arg_val, self.i32)
+            return self.builder.call(func, [arg_val])
+
         arg_vals = [arg.accept(self) for arg in node.args]
 
         # Resolve target: built-in first, then user-defined.
@@ -275,7 +291,7 @@ class LLVMIRGenerator(ASTVisitor):
         if func is None:
             raise Exception(f"خطأ هندسي: استدعاء لدالة غير معرفة '{node.name}'.")
 
-        # Cast each argument to the declared parameter type (extra variadic args pass as-is).
+        # Cast each argument to the declared parameter type.
         fixed_params = list(func.function_type.args)
         casted = []
         for i, val in enumerate(arg_vals):

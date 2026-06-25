@@ -1,0 +1,40 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  backend-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install dependencies
+        run: |
+          python -m venv .venv
+          .venv/bin/pip install -r requirements.txt
+
+      - name: Run backend tests
+        run: |
+          export PYTHONIOENCODING=utf-8
+          .venv/bin/python -m unittest backend.tests.test_backend -v
+
+      - name: Compile sample program (IR + object)
+        run: |
+          export PYTHONIOENCODING=utf-8
+          .venv/bin/python main.py
+
+      - name: Install AVR toolchain and verify linking
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-avr avr-libc binutils-avr
+          export PYTHONIOENCODING=utf-8
+          .venv/bin/python -c "from backend.linker import build_glue; build_glue()"
