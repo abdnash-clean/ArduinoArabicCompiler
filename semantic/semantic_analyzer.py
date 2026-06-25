@@ -32,6 +32,9 @@ class SemanticAnalyzerVisitor(ASTVisitor):
 
     # 1. زيارة البرنامج (المدخل الرئيسي)
     def visit_ProgramNode(self, node: ProgramNode):
+        # زيارة عبارات الاستيراد أولاً لتحميل رموز المكتبات
+        for imp in node.imports:
+            imp.accept(self)
         for decl in node.declarations:
             decl.accept(self)
 
@@ -280,7 +283,11 @@ class SemanticAnalyzerVisitor(ASTVisitor):
         return BOOL_TYPE
 
     def visit_ImportNode(self, node: ImportNode):
-        pass  # الاستيراد لا يحتاج لتحليل أنواع حالياً
+        # تحميل رموز المكتبة المستوردة إلى البيئة الحالية
+        lib_name = node.library_name
+        if lib_name in LIBRARIES:
+            for name, symbol in LIBRARIES[lib_name].items():
+                self.current_env.define(name, symbol)
 
     def visit_BreakNode(self, node: BreakNode):
         if self.loop_depth == 0:

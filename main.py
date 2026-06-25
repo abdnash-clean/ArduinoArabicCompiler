@@ -1,6 +1,8 @@
 # main.py (النسخة النهائية مع ميزة تنظيف وتسوية النصوص العربية)
 import sys
 from backend.optimizer import Optimizer
+from backend import codegen
+from backend.linker import link_and_build_hex, LinkError
 from normlize import normalize_arabic_text 
 from antlr4 import *
 from frontend.ArArduinoLexer import ArArduinoLexer
@@ -62,9 +64,17 @@ def main():
         print(ir_generator.get_ir())
         llvm_ir = ir_generator.get_ir()
         print("\n--- توليد لغة التجميع AVR ---")
-        optimizer = Optimizer(opt_level=2, size_level=1,verbose=True)
+        optimizer = Optimizer(opt_level=2, size_level=1, verbose=True)
         optimized_ir = optimizer.optimize(llvm_ir)
-        optimizer.write_object(optimized_ir, "output.o")
-        print(optimizer.emit_assembly(optimized_ir))
+        codegen.write_object(optimized_ir, "output.o")
+        print(codegen.emit_assembly(optimized_ir))
+
+        print("\n--- الربط النهائي وإنتاج firmware.hex ---")
+        try:
+            link_and_build_hex(obj="output.o", verbose=True)
+        except LinkError as e:
+            print(f"⚠️  لم يكتمل الربط: {e}")
+            print("يمكنك تشغيل الربط لاحقاً عند توفر AVR toolchain:")
+            print("  python -m backend.linker output.o <path/to/core.a>")
 if __name__ == '__main__':
     main()
