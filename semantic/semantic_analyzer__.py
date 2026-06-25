@@ -32,10 +32,6 @@ class SemanticAnalyzerVisitor(ASTVisitor):
 
     # 1. زيارة البرنامج (المدخل الرئيسي)
     def visit_ProgramNode(self, node: ProgramNode):
-        # زيارة عبارات الاستيراد أولاً لتحميل رموز المكتبات في النطاق قبل
-        # أي إعلان أو استدعاء يعتمد عليها.
-        for imp in (node.imports or []):
-            imp.accept(self)
         for decl in node.declarations:
             decl.accept(self)
 
@@ -270,40 +266,9 @@ class SemanticAnalyzerVisitor(ASTVisitor):
         return ret_type
 
     def visit_UnaryOpNode(self, node: UnaryOpNode):
-        if not node.expr:
-            return ERROR_TYPE
-        operand_type = node.expr.accept(self)
-
-        # ميزة التسميم (Poisoning)
-        if operand_type == ERROR_TYPE:
-            return ERROR_TYPE
-
-        # النفي الثنائي (Bitwise NOT) يتطلب عدداً صحيحاً
-        if node.op == '~':
-            if operand_type != INT_TYPE:
-                self.log_error(node.line, node.column, "العملية '~' (النفي الثنائي) تتطلب معاملاً من نوع 'صحيح'.")
-                return ERROR_TYPE
-            node.resolved_type = INT_TYPE
-            return INT_TYPE
-
-        # النفي المنطقي
-        if node.op in ['!', 'ليس', 'لا']:
-            if operand_type != BOOL_TYPE:
-                self.log_error(node.line, node.column, "النفي المنطقي 'ليس' يتطلب معاملاً من نوع 'منطقي'.")
-                return ERROR_TYPE
-            node.resolved_type = BOOL_TYPE
-            return BOOL_TYPE
-
-        # السالب / الموجب الأحادي يتطلب رقماً
-        if node.op in ['-', '+']:
-            if operand_type not in (INT_TYPE, FLOAT_TYPE):
-                self.log_error(node.line, node.column, f"العملية الأحادية '{node.op}' تتطلب معاملاً رقمياً.")
-                return ERROR_TYPE
-            node.resolved_type = operand_type
-            return operand_type
-
-        node.resolved_type = operand_type
-        return operand_type
+        if node.expr:
+            return node.expr.accept(self)
+        return ERROR_TYPE
 
     def visit_StringNode(self, node: StringNode):
         return STRING_TYPE
@@ -315,25 +280,7 @@ class SemanticAnalyzerVisitor(ASTVisitor):
         return BOOL_TYPE
 
     def visit_ImportNode(self, node: ImportNode):
-        """يُحمّل رموز المكتبة المطلوبة في النطاق الحالي.
-        مثال: 'استيراد "سيريال"' يُتيح استخدام سيريال_ابدأ / سيريال_اطبع.
-        """
-        lib = LIBRARIES.get(node.library_name)
-        if lib is None:
-            available = ', '.join(f"'{k}'" for k in LIBRARIES)
-            self.log_error(
-                getattr(node, 'line', 0),
-                getattr(node, 'column', 0),
-                f"المكتبة '{node.library_name}' غير معروفة. "
-                f"المكتبات المتاحة: {available}."
-            )
-            return
-        # تسجيل كل دالة في المكتبة ضمن النطاق الحالي.
-        for func_name, symbol in lib.items():
-            try:
-                self.current_env.define(func_name, symbol)
-            except Exception:
-                pass  # تجاهل التعريف المكرر (استيراد مزدوج)
+        pass  # الاستيراد لا يحتاج لتحليل أنواع حالياً
 
     def visit_BreakNode(self, node: BreakNode):
         if self.loop_depth == 0:

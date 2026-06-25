@@ -71,14 +71,14 @@ class LLVMIRGenerator(ASTVisitor):
         # Core Arduino API (mapped from the Arabic names in builtins_registry)
         self.builtins['وضع_الطرف']    = declare("c_pinMode",      self.void, [self.i32, self.i32])  # pinMode
         self.builtins['اكتب_رقمي']    = declare("c_digitalWrite", self.void, [self.i32, self.i32])  # digitalWrite
-        self.builtins['اقرأ_رقمي']    = declare("c_digitalRead",  self.i32,  [self.i32])            # digitalRead
+        self.builtins['اقرا_رقمي']    = declare("c_digitalRead",  self.i32,  [self.i32])            # digitalRead
         self.builtins['اكتب_تناظري']  = declare("c_analogWrite",  self.void, [self.i32, self.i32])  # analogWrite
-        self.builtins['اقرأ_تناظري']  = declare("c_analogRead",   self.i32,  [self.i32])            # analogRead
+        self.builtins['اقرا_تناظري']  = declare("c_analogRead",   self.i32,  [self.i32])            # analogRead
         self.builtins['انتظر']        = declare("c_delay",        self.void, [self.i32])            # delay
         self.builtins['الزمن_الحالي'] = declare("c_millis",       self.i32,  [])                    # millis
 
         # Serial library (سيريال) — declared up-front; harmless if unused
-        self.builtins['سيريال_ابدأ'] = declare("c_serialBegin", self.void, [self.i32])             # Serial.begin
+        self.builtins['سيريال_ابدا'] = declare("c_serialBegin", self.void, [self.i32])             # Serial.begin
         # print accepts numbers or strings -> variadic to stay flexible
         self.builtins['سيريال_اطبع'] = declare("c_serialPrint", self.void, [], var_arg=True)        # Serial.print
 
