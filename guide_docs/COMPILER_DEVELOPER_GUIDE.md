@@ -636,12 +636,27 @@ A: The IDE shells out to the compiler via `ProModeCompilerAdapter`. See `docs/ID
 
 ## 16. References and Next Steps
 
+### Compiler code and architecture
+
 - `ArduinoArabicCompiler/AGENTS.md` — AI agent instructions and file responsibilities.
 - `ArduinoArabicCompiler/docs/PROJECT_ANALYSIS.md` — detailed architecture.
+- `ArduinoArabicCompiler/docs/PLAN.md` — phase plan and status matrix.
+- `ArduinoArabicCompiler/docs/STEP_01.md` — step 1 setup guide.
+- `ArduinoArabicCompiler/docs/STEP_02.md` — step 2 setup guide.
+- `ArduinoArabicCompiler/docs/STEP_03.md` — step 3 setup guide.
 - `ArduinoArabicCompiler/docs/STEP_04.md` — AVR toolchain setup and flashing.
 - `ArduinoArabicCompiler/docs/IDE_INTEGRATION_GUIDE.md` — IDE integration contract.
 - `frontend/ArArduinoParser.g4` — canonical language syntax.
 - `semantic/builtins_registry.py` — canonical list of built-ins.
+
+### Additional guide documents in `guide_docs/`
+
+The `ArduinoArabicCompiler/guide_docs/` directory also contains these resources:
+
+- `كتيب_تعليمات_مترجم_الاردوينو_العربي.pdf` — Arabic instruction booklet for end users.
+- `مترجم الاردوينو العربي A4.pdf` — A4-format reference/overview document.
+- `ArArduino_HelpGuide.html` — HTML help guide for the Arabic Arduino language.
+- `ArArduino_Presentation.pptx` — Introductory presentation slides.
 
 ---
 

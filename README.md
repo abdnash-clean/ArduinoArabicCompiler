@@ -206,6 +206,20 @@ See `docs/IDE_INTEGRATION_GUIDE.md` for the full integration contract.
 
 ---
 
+## Guide Documents
+
+The `guide_docs/` folder contains both community-created and developer-oriented resources:
+
+| File | Description |
+|------|-------------|
+| `COMPILER_DEVELOPER_GUIDE.md` | In-depth guide for running, understanding, and extending the compiler. |
+| `كتيب_تعليمات_مترجم_الاردوينو_العربي.pdf` | Arabic instruction booklet for the Arabic Arduino Compiler. |
+| `مترجم الاردوينو العربي A4.pdf` | A4-format overview/reference document for the compiler. |
+| `ArArduino_HelpGuide.html` | HTML help guide for the Arabic Arduino language. |
+| `ArArduino_Presentation.pptx` | Presentation slides introducing the project. |
+
+---
+
 ## Development
 
 For detailed developer documentation, see:
