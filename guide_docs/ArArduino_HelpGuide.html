@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دليل البرمجة ومرجع الأوامر — لغة الأردوينو العربية (ArArduino)</title>
+<style>
+  /* ─── Typography & Base ─────────────────────────────── */
+  @import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700&family=Fira+Code&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Cairo', 'Amiri', Arial, sans-serif;
+    font-size: 11pt;
+    line-height: 1.85;
+    color: #1a1a1a;
+    background: #fff;
+    direction: rtl;
+    text-align: right;
+  }
+
+  /* ─── Page layout for print ────────────────────────── */
+  .page-wrap {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 48px 52px;
+  }
+
+  @media print {
+    body { font-size: 10.5pt; }
+    .page-wrap { padding: 0; max-width: 100%; }
+    h1.cover-title { page-break-after: avoid; }
+    h2 { page-break-after: avoid; }
+    pre, table { page-break-inside: avoid; }
+    .toc { page-break-after: always; }
+  }
+
+  /* ─── Cover ─────────────────────────────────────────── */
+  .cover {
+    border: 2px solid #1a1a1a;
+    padding: 52px 48px 44px;
+    margin-bottom: 56px;
+    text-align: center;
+  }
+
+  .cover-label {
+    font-size: 9pt;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #555;
+    margin-bottom: 20px;
+  }
+
+  h1.cover-title {
+    font-family: 'Amiri', serif;
+    font-size: 26pt;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    color: #000;
+  }
+
+  .cover-sub {
+    font-size: 13pt;
+    color: #444;
+    margin-bottom: 32px;
+  }
+
+  .cover-rule {
+    border: none;
+    border-top: 1.5px solid #1a1a1a;
+    width: 60%;
+    margin: 0 auto 28px;
+  }
+
+  .cover-meta {
+    font-size: 9.5pt;
+    color: #555;
+    line-height: 2.1;
+  }
+
+  .cover-meta strong { color: #1a1a1a; }
+
+  /* ─── Table of Contents ─────────────────────────────── */
+  .toc {
+    margin-bottom: 52px;
+    padding-bottom: 32px;
+    border-bottom: 1.5px solid #ccc;
+  }
+
+  .toc h2 {
+    font-family: 'Amiri', serif;
+    font-size: 16pt;
+    font-weight: 700;
+    margin-bottom: 18px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .toc ol {
+    padding-right: 22px;
+    counter-reset: none;
+  }
+
+  .toc li {
+    margin-bottom: 5px;
+    font-size: 10.5pt;
+    color: #222;
+  }
+
+  .toc a {
+    color: #1a1a1a;
+    text-decoration: none;
+  }
+
+  .toc a:hover { text-decoration: underline; }
+
+  .toc .toc-num {
+    color: #777;
+    font-size: 9pt;
+    margin-left: 6px;
+  }
+
+  /* ─── Section headings ──────────────────────────────── */
+  h2.section-title {
+    font-family: 'Amiri', serif;
+    font-size: 16pt;
+    font-weight: 700;
+    margin: 48px 0 16px;
+    padding-bottom: 7px;
+    border-bottom: 2px solid #1a1a1a;
+    color: #000;
+  }
+
+  h3.sub-title {
+    font-size: 12pt;
+    font-weight: 700;
+    margin: 28px 0 10px;
+    color: #111;
+  }
+
+  h3.sub-title::before {
+    content: "◆ ";
+    font-size: 8pt;
+    color: #555;
+  }
+
+  /* ─── Body text ─────────────────────────────────────── */
+  p {
+    margin-bottom: 12px;
+    text-align: justify;
+  }
+
+  ul, ol {
+    padding-right: 26px;
+    margin-bottom: 14px;
+  }
+
+  li {
+    margin-bottom: 6px;
+  }
+
+  /* inline code */
+  code {
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 9.5pt;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    padding: 1px 5px;
+    border-radius: 3px;
+    direction: ltr;
+    unicode-bidi: embed;
+  }
+
+  /* ─── Code blocks ───────────────────────────────────── */
+  pre {
+    direction: ltr;
+    text-align: left;
+    unicode-bidi: embed;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 9pt;
+    line-height: 1.7;
+    background: #f8f8f8;
+    border: 1px solid #ccc;
+    border-right: 4px solid #555;
+    padding: 14px 18px;
+    margin: 14px 0 20px;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  pre .comment { color: #6a8759; }
+  pre .kw      { color: #000; font-weight: 700; }
+
+  /* ─── Tables ────────────────────────────────────────── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 10pt;
+  }
+
+  thead tr {
+    background: #1a1a1a;
+    color: #fff;
+  }
+
+  th {
+    padding: 9px 12px;
+    font-weight: 600;
+    text-align: right;
+  }
+
+  td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #ddd;
+    vertical-align: top;
+  }
+
+  tbody tr:nth-child(even) { background: #f9f9f9; }
+
+  td code {
+    font-size: 9pt;
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
+
+  /* ─── Notes / callout boxes ─────────────────────────── */
+  .note {
+    border: 1px solid #bbb;
+    border-right: 4px solid #333;
+    background: #fafafa;
+    padding: 12px 16px;
+    margin: 16px 0 20px;
+    font-size: 10pt;
+    border-radius: 2px;
+  }
+
+  .note strong { color: #000; }
+
+  /* ─── Section number badge ──────────────────────────── */
+  .sec-num {
+    display: inline-block;
+    background: #1a1a1a;
+    color: #fff;
+    font-size: 9pt;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  /* ─── Footer ────────────────────────────────────────── */
+  .doc-footer {
+    margin-top: 60px;
+    padding-top: 16px;
+    border-top: 1.5px solid #ccc;
+    font-size: 9pt;
+    color: #777;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- COVER                                                  -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-label">مرجع تقني — إصدار 1.0</div>
+  <h1 class="cover-title">دليل البرمجة ومرجع الأوامر الكامل<br>للغة الأردوينو العربية</h1>
+  <div class="cover-sub">ArArduino Help &amp; Reference Guide</div>
+  <hr class="cover-rule">
+  <div class="cover-meta">
+    <strong>المشروع:</strong> مترجم الأردوينو العربي (ArArduino Compiler)<br>
+    <strong>المقدمون:</strong> عبد الهادي نشواتي — محمد ثائر عرابي — سعيد بقدونس<br>
+    <strong>المشرفون:</strong> د. عبد العظيم عموري — م. عماد قرحيلي — م. علي سليمان
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- TABLE OF CONTENTS                                      -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="toc">
+  <h2>فهرس المحتويات</h2>
+  <ol>
+    <li><a href="#sec1">قواعد ومواصفات النص العربي في اللغة</a></li>
+    <li><a href="#sec2">جدول الكلمات المفتاحية المحجوزة</a></li>
+    <li><a href="#sec3">أنواع البيانات والأرقام الثنائية</a>
+      <ol>
+        <li><a href="#sec3-1">صحيح / رقم <span class="toc-num">(IntType)</span></a></li>
+        <li><a href="#sec3-2">عشري / كسري <span class="toc-num">(FloatType)</span></a></li>
+        <li><a href="#sec3-3">نص <span class="toc-num">(StringType)</span></a></li>
+        <li><a href="#sec3-4">منطقي <span class="toc-num">(BoolType)</span></a></li>
+        <li><a href="#sec3-5">الأرقام الثنائية المبتكرة <span class="toc-num">(BIN_NUMBER)</span></a></li>
+      </ol>
+    </li>
+    <li><a href="#sec4">المعاملات والعمليات الحسابية والمنطقية والبتية</a></li>
+    <li><a href="#sec5">جمل التحكم والشرط والتكرار</a></li>
+    <li><a href="#sec6">المكتبات المدمجة للأردوينو</a></li>
+    <li><a href="#sec7">التحكم منخفض المستوى بالمسجلات</a></li>
+    <li><a href="#sec8">أمثلة برمجية كاملة مشروحة</a></li>
+  </ol>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 1                                              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<h2 class="section-title" id="sec1">
+  <span class="sec-num">1</span>
+  قواعد ومواصفات النص العربي في اللغة
+  <small style="font-size:9.5pt; font-weight:400; color:#555; margin-right:8px;">Arabic Text Conventions</small>
+</h2>
+
+<p>
+  تمت تزويد لغة الأردوينو العربية بفلتر معالجة نصوص ذكي يعمل صامتاً قبل تصريف الكود (في مرحلة تسوية النص)، ويتيح هذا الفلتر مرونة تامة أثناء كتابة الكود وفقاً للقواعد التالية:
+</p>
+
+<h3 class="sub-title">التشكيل</h3>
+<p>
+  يمكن كتابة الكلمات مشكّلة كلياً أو جزئياً أو بدون تشكيل، وسيتعرف عليها المترجم كرموز متطابقة تماماً.
+</p>
+<div class="note">
+  <strong>مثال:</strong> <code>مُتَغَيِّر</code> مطابقة تماماً لـ <code>متغير</code> في نظر المترجم.
+</div>
+
+<h3 class="sub-title">التطويل (الكشيدة)</h3>
+<p>
+  يمكن مد الكلمات بصرياً لتنسيق الكود باستخدام حرف الكشيدة <code>ـ</code> دون أي أثر على الدلالة.
+</p>
+<div class="note">
+  <strong>مثال:</strong> <code>طـــالما</code> مطابقة تماماً لـ <code>طالما</code>.
+</div>
+
+<h3 class="sub-title">توحيد الهمزات</h3>
+<p>
+  يقوم المترجم بدمج وتوحيد كافة أشكال الهمزات (<code>أ</code> أو <code>إ</code> أو <code>آ</code>) وإرجاعها لألف عادية مهملة (<code>ا</code>) لتجنب أخطاء لوحة المفاتيح الشائعة.
+</p>
+<div class="note">
+  <strong>مثال:</strong> كتابة <code>إعداد</code> أو <code>اعداد</code> كلاهما صحيح ويُرجعان لـ <code>اعداد</code>.<br>
+  <strong>تنبيه:</strong> يجب كتابة كافة الكلمات المفتاحية في الكود بألف عادية مهملة لضمان التوافق مع مرحلة معالجة النصوص.
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 2                                              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<h2 class="section-title" id="sec2">
+  <span class="sec-num">2</span>
+  جدول الكلمات المفتاحية المحجوزة
+  <small style="font-size:9.5pt; font-weight:400; color:#555; margin-right:8px;">Reserved Keywords</small>
+</h2>
+
+<p>
+  تمثل الكلمات المفتاحية الدستور النحوي للغة، ولا يمكن استخدامها كأسماء متغيرات أو دوال.
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>الكلمة المفتاحية</th>
+      <th>الرمز (Token)</th>
+      <th>الوظيفة</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>متغير</code></td><td><code>VAR</code></td><td>الإعلان عن متغير جديد في الذاكرة</td></tr>
+    <tr><td><code>لو</code> / <code>اذا</code></td><td><code>IF</code></td><td>جملة الشرط الأساسية</td></tr>
+    <tr><td><code>والا</code></td><td><code>ELSE</code></td><td>جملة الشرط البديلة عند عدم تحقق <code>لو</code></td></tr>
+    <tr><td><code>طالما</code></td><td><code>WHILE</code></td><td>حلقة التكرار المشروطة</td></tr>
+    <tr><td><code>صح</code></td><td><code>TRUE</code></td><td>القيمة المنطقية الإيجابية (True)</td></tr>
+    <tr><td><code>غلط</code></td><td><code>FALSE</code></td><td>القيمة المنطقية السلبية (False)</td></tr>
+    <tr><td><code>صحيح</code> / <code>رقم</code></td><td><code>INT_T</code></td><td>نوع بيانات الأعداد الصحيحة (32-بت)</td></tr>
+    <tr><td><code>عشري</code> / <code>كسري</code></td><td><code>FLOAT_T</code></td><td>نوع بيانات الأعداد العشرية الكسرية (32-بت)</td></tr>
+    <tr><td><code>نص</code></td><td><code>STRING_T</code></td><td>نوع بيانات النصوص البرمجية</td></tr>
+    <tr><td><code>حرف</code></td><td><code>CHAR_T</code></td><td>نوع بيانات الحروف المنفردة</td></tr>
+    <tr><td><code>فارغ</code></td><td><code>VOID</code></td><td>نوع إرجاع الدوال التي لا تعيد قيمة</td></tr>
+    <tr><td><code>مهمة</code> / <code>دالة</code> / <code>امر</code></td><td><code>FUNCTION</code></td><td>الإعلان عن دالة أو مهمة برمجية</td></tr>
+    <tr><td><code>اعداد</code></td><td><code>SETUP</code></td><td>نقطة البدء العتادية؛ تُنفَّذ مرة واحدة عند الإقلاع</td></tr>
+    <tr><td><code>تكرار</code> / <code>حلقة</code></td><td><code>LOOP</code></td><td>نقطة التشغيل التكرارية اللانهائية للأردوينو</td></tr>
+    <tr><td><code>ارجع</code></td><td><code>RETURN</code></td><td>إرجاع قيمة من دالة أو إنهاء تنفيذها</td></tr>
+    <tr><td><code>اقطع</code></td><td><code>BREAK</code></td><td>إنهاء حلقة التكرار فوراً والخروج منها</td></tr>
+    <tr><td><code>استمر</code> / <code>واصل</code></td><td><code>CONTINUE</code></td><td>تجاوز الدورة الحالية والانتقال للدورة التالية</td></tr>
+    <tr><td><code>استيراد</code> / <code>مكتبة</code> / <code>اضافة</code></td><td><code>IMPORT</code></td><td>استدعاء مكاتب الأردوينو البرمجية الخارجية</td></tr>
+  </tbody>
+</table>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 3                                              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<h2 class="section-title" id="sec3">
+  <span class="sec-num">3</span>
+  أنواع البيانات والأرقام الثنائية
+  <small style="font-size:9.5pt; font-weight:400; color:#555; margin-right:8px;">Data Types &amp; Literals</small>
+</h2>
+
+<p>
+  يدعم المترجم أنواع البيانات التالية ويتحقق منها بصرامة في مرحلة التحليل الدلالي.
+</p>
+
+<h3 class="sub-title" id="sec3-1">3.1 — صحيح / رقم <code style="font-weight:400">(IntType)</code></h3>
+<p>
+  مخصص لحفظ الأعداد الصحيحة الموجبة والسالبة، يُخصَّص له 32 بتاً برمجياً عتادياً.
+</p>
+<pre>متغير اليد : صحيح = ١٣ ؛</pre>
+
+<h3 class="sub-title" id="sec3-2">3.2 — عشري / كسري <code style="font-weight:400">(FloatType)</code></h3>
+<p>
+  مخصص لحفظ الأعداد ذات الفاصلة العشرية لضمان دقة العمليات الحسابية.
+</p>
+<pre>متغير الحرارة : عشري = ٢٣.٥ ؛</pre>
+
+<h3 class="sub-title" id="sec3-3">3.3 — نص <code style="font-weight:400">(StringType)</code></h3>
+<p>
+  مخصص لحفظ الجمل البرمجية المحاطة بعلامات الاقتباس المزدوجة.
+</p>
+<pre>متغير رسالة : نص = "مرحبا بكم" ؛</pre>
+
+<h3 class="sub-title" id="sec3-4">3.4 — منطقي <code style="font-weight:400">(BoolType)</code></h3>
+<p>
+  يستقبل قيمتين فقط هما <code>صح</code> أو <code>غلط</code> للتحكم بمسارات القرار في الكود.
+</p>
+<pre>متغير الحالة : منطقي = صح ؛</pre>
+
+<h3 class="sub-title" id="sec3-5">3.5 — الأرقام الثنائية المبتكرة <code style="font-weight:400">(BIN_NUMBER)</code></h3>
+<p>
+  ميزة متقدمة تتيح برمجة البتات والمنافذ عتادياً بكتابة حرف <code>ث</code> تتبعه سلسلة البتات بالأرقام الشرقية أو المشرقية. يقوم المترجم تلقائياً بتحويلها إلى قيمتها في النظام العشري.
+</p>
+<pre>منفذ_ب = ث١١١١٠١١١ ؛  <span class="comment">// يعادل القيمة 247 في النظام العشري</span></pre>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 4                                              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<h2 class="section-title" id="sec4">
+  <span class="sec-num">4</span>
+  المعاملات والعمليات
+  <small style="font-size:9.5pt; font-weight:400; color:#555; margin-right:8px;">Operators &amp; Expressions</small>
+</h2>
+
+<p>
+  يعتمد المترجم نظام أولويات صارم للعمليات لتفادي الغموض النحوي، وتُطبَّق قواعد الفحص الدلالي على كل معامل وفق نوع المعاملات.
+</p>
+
+<h3 class="sub-title">4.1 — المعاملات الحسابية (Arithmetic)</h3>
+<table>
+  <thead>
+    <tr><th>المعامل</th><th>العملية</th><th>مثال</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>+</code></td><td>الجمع</td><td><code>س + ١</code></td></tr>
+    <tr><td><code>-</code></td><td>الطرح</td><td><code>س - ١</code></td></tr>
+    <tr><td><code>*</code></td><td>الضرب</td><td><code>س * ٢</code></td></tr>
+    <tr><td><code>/</code></td><td>القسمة</td><td><code>س / ٢</code></td></tr>
+    <tr><td><code>%</code></td><td>باقي القسمة</td><td><code>س % ٣</code></td></tr>
+  </tbody>
+</table>
+<div class="note">
+  <strong>الترقية التلقائية للأنواع:</strong> عند جمع عدد صحيح مع عدد عشري (مثل <code>٥ + ٣.١٤</code>)، يقوم المحلل الدلالي تلقائياً بترقية النتيجة لتصبح من نوع <code>عشري</code> دون إثارة أخطاء.
+</div>
+
+<h3 class="sub-title">4.2 — معاملات الإسناد المبسطة (Assignment &amp; Desugaring)</h3>
+<table>
+  <thead>
+    <tr><th>المعامل</th><th>المعادل الموسّع</th><th>الوصف</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>=</code></td><td>—</td><td>الإسناد العادي</td></tr>
+    <tr><td><code>+=</code></td><td><code>س = س + ن</code></td><td>الإسناد بالجمع</td></tr>
+    <tr><td><code>-=</code></td><td><code>س = س - ن</code></td><td>الإسناد بالطرح</td></tr>
+    <tr><td><code>++</code></td><td><code>س = س + ١</code></td><td>الزيادة بمقدار واحد</td></tr>
+    <tr><td><code>--</code></td><td><code>س = س - ١</code></td><td>النقصان بمقدار واحد</td></tr>
+  </tbody>
+</table>
+<div class="note">
+  <strong>التفكيك النحوي (Desugaring):</strong> يحوّل المترجم صامتاً المعاملات المركبة إلى معادلات تفصيلية أثناء بناء شجرة AST، كتحويل <code>س++</code> إلى <code>س = س + ١</code>.
+</div>
+
+<h3 class="sub-title">4.3 — معاملات المقارنة والمنطق (Comparison &amp; Logical)</h3>
+<table>
+  <thead>
+    <tr><th>المعامل العربي</th><th>المقابل</th><th>الوصف</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>&lt;</code></td><td>less than</td><td>أصغر من</td></tr>
+    <tr><td><code>&gt;</code></td><td>greater than</td><td>أكبر من</td></tr>
+    <tr><td><code>&lt;=</code></td><td>less or equal</td><td>أصغر أو يساوي</td></tr>
+    <tr><td><code>&gt;=</code></td><td>greater or equal</td><td>أكبر أو يساوي</td></tr>
+    <tr><td><code>==</code></td><td>equal</td><td>يساوي تماماً</td></tr>
+    <tr><td><code>!=</code></td><td>not equal</td><td>لا يساوي</td></tr>
+    <tr><td><code>و</code></td><td><code>&amp;&amp;</code></td><td>AND المنطقية</td></tr>
+    <tr><td><code>او</code></td><td><code>||</code></td><td>OR المنطقية</td></tr>
+    <tr><td><code>ليس</code></td><td><code>!</code></td><td>NOT المنطقي</td></tr>
+  </tbody>
+</table>
+<div class="note">
+  <strong>قاعدة دلالية:</strong> يفرض المترجم أن تكون معاملات <code>و</code> و<code>او</code> مطبقةً حصراً بين قيم منطقية (<code>BOOL_TYPE</code>).
+</div>
+
+<h3 class="sub-title">4.4 — معاملات البت والإزاحة (Bitwise &amp; Shift)</h3>
+<table>
+  <thead>
+    <tr><th>المعامل</th><th>العملية</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>&amp;</code></td><td>AND البتية</td></tr>
+    <tr><td><code>|</code></td><td>OR البتية</td></tr>
+    <tr><td><code>^</code></td><td>XOR البتية</td></tr>
+    <tr><td><code>~</code></td><td>النفي البتي</td></tr>
+    <tr><td><code>&lt;&lt;</code></td><td>الإزاحة لليسار</td></tr>
+    <tr><td><code>&gt;&gt;</code></td><td>الإزاحة لليمين</td></tr>
+  </tbody>
+</table>
+<div class="note">
+  <strong>قاعدة دلالية:</strong> تُطبَّق معاملات الإزاحة والعمليات البتية حصراً على متغيرات من نوع <code>صحيح</code> (<code>INT_TYPE</code>).
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 5                                              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<h2 class="section-title" id="sec5">
+  <span class="sec-num">5</span>
+  جمل التحكم والشرط والتكرار
+  <small style="font-size:9.5pt; font-weight:400; color:#555; margin-right:8px;">Control Flow</small>
+</h2>
+
+<p>
+  تخضع جمل التحكم لشروط صارمة لحماية العتاد، وتوفر نطاق رؤية محمياً للذاكرة (Block Scope).
+</p>
+
+<h3 class="sub-title" id="sec5-1">5.1 — جملة الشرط <code>لو</code> / <code>اذا</code></h3>
+<p>
+  تتحقق من شرط معين وتنفذ الكتلة المرافقة له إذا تحقق، مع دعم فرع <code>والا</code> البديل.
+</p>
+<pre>لو ( العداد == ١٠ ) {
+    العداد = ٠ ؛
+} والا {
+    العداد = العداد + ١ ؛
+}</pre>
+<div class="note">
+  <strong>قاعدة دلالية:</strong> يجب أن يكون التعبير بين قوسي <code>لو</code> من نوع منطقي (<code>BOOL_TYPE</code>) حصراً، وإلا يرفض المحلل الدلالي الكود.
+</div>
+
+<h3 class="sub-title" id="sec5-2">5.2 — حلقة التكرار <code>طالما</code></h3>
+<p>
+  تكرر تنفيذ الكود المحاط بالأقواس طالما أن الشرط المنطقي محقق.
+</p>
+<pre>طالما ( س &lt; ١٠ ) {
+    س++ ؛
+}</pre>
+<div class="note">
+  <strong>قواعد <code>اقطع</code> و<code>استمر</code>:</strong> يُسمح باستخدامهما حصراً داخل كتل <code>طالما</code>. يؤدي استخدام أي منهما خارج حلقة تكرار إلى خطأ دلالي فوري: <em>"لا يمكن استخدام أمر 'اقطع' خارج حلقات التكرار (طالما)"</em>.
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 6                                              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<h2 class="section-title" id="sec6">
+  <span class="sec-num">6</span>
+  الكيانات والمكتبات المدمجة للأردوينو
+  <small style="font-size:9.5pt; font-weight:400; color:#555; margin-right:8px;">Arduino Standard Library</small>
+</h2>
+
+<h3 class="sub-title">6.1 — دوال التحكم بالمنافذ والإشارات الرقمية</h3>
+
+<table>
+  <thead>
+    <tr><th>الدالة</th><th>الوصف</th><th>مثال</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>وضع_الطرف(طرف، اتجاه)</code></td>
+      <td>تحديد وضعية الطرف الرقمي. الاتجاه: <code>مدخل</code> أو <code>مخرج</code></td>
+      <td><code>وضع_الطرف(١٣، مخرج) ؛</code></td>
+    </tr>
+    <tr>
+      <td><code>اكتب_رقمي(طرف، قيمة)</code></td>
+      <td>إرسال إشارة كهربائية. القيمة: <code>عالي</code> (5V) أو <code>منخفض</code> (0V)</td>
+      <td><code>اكتب_رقمي(١٣، عالي) ؛</code></td>
+    </tr>
+    <tr>
+      <td><code>انتظر(وقت)</code></td>
+      <td>تأخير تنفيذ البرنامج لزمن محدد بالميلي ثانية</td>
+      <td><code>انتظر(١٠٠٠) ؛</code></td>
+    </tr>
+    <tr>
+      <td><code>اقرا_تناظري(طرف)</code></td>
+      <td>قراءة قيمة تماثلية من المنفذ (0–1023)</td>
+      <td><code>اقرا_تناظري(٠) ؛</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 class="sub-title">6.2 — مكتبة الاتصال التسلسلي (<code>سيريال</code>)</h3>
+<p>
+  يتم تفعيلها في مقدمة الملف عبر: <code>استيراد "سيريال" ؛</code>
+</p>
+<table>
+  <thead>
+    <tr><th>الدالة</th><th>الوصف</th><th>مثال</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>سيريال_ابدا(سرعة)</code></td>
+      <td>تحديد سرعة الاتصال التسلسلي وبدء الاتصال</td>
+      <td><code>سيريال_ابدا(٩٦٠٠) ؛</code></td>
+    </tr>
+    <tr>
+      <td><code>سيريال_اطبع(قيمة)</code></td>
+      <td>إرسال نصوص أو أعداد لشاشة الحاسوب عبر الـ Serial Monitor</td>
+      <td><code>سيريال_اطبع("العداد:") ؛</code></td>
+    </tr>
+  </tbody>
+</table>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 7                                              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<h2 class="section-title" id="sec7">
+  <span class="sec-num">7</span>
+  التحكم منخفض المستوى بالمسجلات
+  <small style="font-size:9.5pt; font-weight:400; color:#555; margin-right:8px;">Direct Port Manipulation</small>
+</h2>
+
+<p>
+  للمشاريع المتقدمة عالية الأداء، يتيح المترجم التحكم المباشر بمسجلات المعالج <strong>ATmega328P</strong> مما يتيح كتابة البتات بسرعة تزيد بعشرة أضعاف عن الدوال التقليدية.
+</p>
+
+<table>
+  <thead>
+    <tr><th>المسجل العربي</th><th>المسجل الحقيقي</th><th>الوظيفة</th><th>نطاق المنافذ</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>اتجاه_ب</code></td><td><code>DDRB</code></td><td>تحديد اتجاه المنافذ (مدخل/مخرج)</td><td>8 – 13</td></tr>
+    <tr><td><code>منفذ_ب</code></td><td><code>PORTB</code></td><td>إخراج الطاقة الكهربائية للمنافذ</td><td>8 – 13</td></tr>
+    <tr><td><code>دخل_ب</code></td><td><code>PINB</code></td><td>القراءة الرقمية اللحظية للمنافذ</td><td>8 – 13</td></tr>
+  </tbody>
+</table>
+
+<pre><span class="comment">// تعيين المنافذ 8–13 كمخارج رقمية دفعة واحدة</span>
+اتجاه_ب = ث١١١١١١ ؛
+
+<span class="comment">// تشغيل المنفذ 13 فقط وإيقاف بقية المنافذ في دورة ساعة واحدة</span>
+منفذ_ب = ث١٠٠٠٠٠ ؛</pre>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 8                                              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<h2 class="section-title" id="sec8">
+  <span class="sec-num">8</span>
+  أمثلة برمجية كاملة مشروحة
+  <small style="font-size:9.5pt; font-weight:400; color:#555; margin-right:8px;">Complete Code Samples</small>
+</h2>
+
+<h3 class="sub-title">المثال الأول — وميض الليد (Blink)</h3>
+<p>
+  يهيئ المنفذ رقم 13 المدمج بالأردوينو كمخرج، ثم يشغّل الليد ويطفئه بصورة دورية كل ثانية.
+</p>
+<pre><span class="comment">// برنامج وميض الليد باللغة العربية للأردوينو</span>
+متغير ليد : صحيح = ١٣ ؛
+
+مهمة اعداد() : فارغ {
+    وضع_الطرف(ليد، مخرج) ؛         <span class="comment">// تهيئة المنفذ كمخرج رقمي</span>
+}
+
+مهمة تكرار() : فارغ {
+    اكتب_رقمي(ليد، عالي) ؛          <span class="comment">// إضاءة الليد</span>
+    انتظر(١٠٠٠) ؛                   <span class="comment">// انتظر ثانية كاملة</span>
+    اكتب_رقمي(ليد، منخفض) ؛         <span class="comment">// إطفاء الليد</span>
+    انتظر(١٠٠٠) ؛                   <span class="comment">// انتظر ثانية كاملة</span>
+}</pre>
+
+<h3 class="sub-title">المثال الثاني — قراءة مستشعر تماثلي وبث القيم تسلسلياً</h3>
+<p>
+  يستورد مكتبة السيريال، ويقرأ جهداً تماثلياً متغيراً من المنفذ <code>A0</code>، ويرسل القيمة إلى الحاسوب باستمرار.
+</p>
+<pre>استيراد "سيريال" ؛                  <span class="comment">// استدعاء مكتبة الاتصال التسلسلي</span>
+
+متغير منفذ_المستشعر : صحيح = ٠ ؛   <span class="comment">// المنفذ التماثلي A0</span>
+
+مهمة اعداد() : فارغ {
+    سيريال_ابدا(٩٦٠٠) ؛            <span class="comment">// تفعيل الاتصال بسرعة 9600 baud</span>
+}
+
+مهمة تكرار() : فارغ {
+    متغير القيمة : صحيح = ٠ ؛
+    القيمة = اقرا_تناظري(منفذ_المستشعر) ؛
+
+    سيريال_اطبع("قيمة المستشعر:") ؛
+    سيريال_اطبع(القيمة) ؛          <span class="comment">// بث القيمة لشاشة الحاسوب</span>
+    انتظر(٥٠٠) ؛                   <span class="comment">// انتظر نصف ثانية بين القراءات</span>
+}</pre>
+
+<h3 class="sub-title">المثال الثالث — الحماية من القسمة على صفر (Divide-by-Zero Guard)</h3>
+<p>
+  يوضح آلية حماية المترجم للمعالج من الانهيار عند محاولة القسمة على صفر؛ حيث يولد المترجم تلقائياً كود فحص يتحقق من قيمة المقسوم عليه قبل إجراء العملية، وعند اكتشاف الصفر يستدعي دالة الذعر <code>panic_div_zero()</code> التي تبدأ بوميض سريع لليد رقم 13 تحذيراً من الانهيار الرياضي.
+</p>
+<pre>متغير س : صحيح = ١٠ ؛
+متغير ص : صحيح = ٠ ؛
+
+مهمة اعداد() : فارغ {
+    <span class="comment">// تهيئة عادية</span>
+}
+
+مهمة تكرار() : فارغ {
+    متغير النتيجة : صحيح = ٠ ؛
+
+    <span class="comment">// المترجم يولد كود فحص تلقائي قبل هذه العملية:</span>
+    <span class="comment">// إذا كان ص == 0  ←  استدعاء panic_div_zero() فوراً</span>
+    النتيجة = س / ص ؛
+}</pre>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- FOOTER                                                 -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="doc-footer">
+  دليل البرمجة ومرجع الأوامر — لغة الأردوينو العربية (ArArduino) &nbsp;·&nbsp; إصدار 1.0 &nbsp;·&nbsp;
+  مشروع تخرج — كلية الهندسة المعلوماتية
+</div>
+
+</div><!-- .page-wrap -->
+</body>
+</html>
