@@ -45,7 +45,10 @@ def cmd_setup(args):
 def cmd_compile(args):
     env = os.environ.copy()
     env["PYTHONIOENCODING"] = "utf-8"
-    run([PYTHON, "main.py"], check=False)
+    res =  subprocess.run([PYTHON, "main.py"], check=False)
+    if res.returncode!=0:
+        sys.exit(1)
+
 
 def cmd_test(args):
     env = os.environ.copy()

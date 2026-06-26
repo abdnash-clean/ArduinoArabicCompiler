@@ -34,7 +34,10 @@ def main():
     token_stream = CommonTokenStream(lexer)
     parser = ArArduinoParser(token_stream)
     parse_tree = parser.program()
-
+    if(parser.getNumberOfSyntaxErrors() > 0):
+        print(f"❌ تم العثور على أخطاء نحوية ({parser.getNumberOfSyntaxErrors()} أخطاء). الرجاء إصلاحها.")
+        sys.exit(1)
+        print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
     builder = ASTBuilderVisitor()
     ast = builder.visit(parse_tree)
 
@@ -52,6 +55,7 @@ def main():
         for err in analyzer.errors:
             print(f"   ❌ {err}")
         print("\nفشلت عملية الترجمة. الرجاء إصلاح الأخطاء أعلاه.")
+        sys.exit(1)
     else:
         print("✅ الكود سليم دلالياً ونحوياً 100%!")
         print("جاري توليد الرسم الهندسي البصري (PNG)...")
